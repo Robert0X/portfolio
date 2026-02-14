@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>José Roberto García Correa — Software Engineer</title>
+    <meta name="description" content="Competitive programmer, software engineer, and Computer Systems Engineering student at TecNM. ICPC World Finals qualifier, founder of GAPC C120.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav__inner">
+            <a href="#hero" class="nav__logo">
+                <span class="mono">R</span>obert<span class="accent">.</span>
+            </a>
+            <div class="nav__links">
+                <a href="#about" data-en="About" data-es="Sobre mí">About</a>
+                <a href="#projects" data-en="Projects" data-es="Proyectos">Projects</a>
+                <a href="#competitive" data-en="Competitive" data-es="Competitiva">Competitive</a>
+                <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+                <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+                    <span class="lang-toggle__active" id="langLabel">EN</span>
+                    <span class="lang-toggle__divider">/</span>
+                    <span class="lang-toggle__inactive">ES</span>
+                </button>
+            </div>
+            <button class="nav__mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about" data-en="About" data-es="Sobre mí">About</a>
+        <a href="#projects" data-en="Projects" data-es="Proyectos">Projects</a>
+        <a href="#competitive" data-en="Competitive" data-es="Competitiva">Competitive</a>
+        <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero__content">
+                <p class="hero__greeting mono fade-up" data-en="Hello, I'm" data-es="Hola, soy">Hello, I'm</p>
+                <h1 class="hero__name fade-up" style="animation-delay: 0.1s">
+                    José Roberto<br>García Correa<span class="accent">.</span>
+                </h1>
+                <p class="hero__title fade-up" style="animation-delay: 0.2s" data-en="Computer Systems Engineering Student &amp; Competitive Programmer" data-es="Estudiante de Ingeniería en Sistemas Computacionales &amp; Programador Competitivo">
+                    Computer Systems Engineering Student &amp; Competitive Programmer
+                </p>
+                <p class="hero__subtitle fade-up" style="animation-delay: 0.3s" data-en="ICPC MÉXICO Finals Qualifier · Founder of GAPC C120 · 3rd Place Coding Cup 2022" data-es="Clasificado a ICPC MÉXICO Finals · Fundador de GAPC C120 · 3er Lugar Coding Cup 2022">
+                    ICPC MÉXICO Finals Qualifier · Founder of GAPC C120 · 3rd Place Coding Cup 2022
+                </p>
+                <div class="hero__links fade-up" style="animation-delay: 0.4s">
+                    <a href="https://github.com/Robert0X" target="_blank" rel="noopener" class="hero__link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://codeforces.com/profile/Robert.x" target="_blank" rel="noopener" class="hero__link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4.5 7.5C5.328 7.5 6 8.172 6 9v10.5c0 .828-.672 1.5-1.5 1.5h-3C.672 21 0 20.328 0 19.5V9c0-.828.672-1.5 1.5-1.5h3zm9-4.5c.828 0 1.5.672 1.5 1.5v16.5c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5V4.5c0-.828.672-1.5 1.5-1.5h3zm9 7.5c.828 0 1.5.672 1.5 1.5v9c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5v-9c0-.828.672-1.5 1.5-1.5h3z"/></svg>
+                        <span>Codeforces</span>
+                    </a>
+                    <a href="mailto:robertcgr.0x@gmail.com" class="hero__link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <span>Email</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero__image fade-up" style="animation-delay: 0.3s">
+                <img src="assets/img/profile.jpg" alt="José Roberto García Correa" width="280" height="280">
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section__title" data-en="About" data-es="Sobre mí">About</h2>
+            <div class="about__grid">
+                <div class="about__text">
+                    <p data-en="I'm a 5th semester Computer Systems Engineering student at the Instituto Tecnológico de Morelia (TecNM). My passion for programming started early — Edmundo Canedo, Jessica Jaimes, and I founded the competitive programming club GAPC C120 at CETIs 120, and since then I have qualified for the national finals (ICPC Mexico Finals) and one of my next goals is to qualify for the ICPC Latin America Championship." data-es="Soy estudiante de 5to semestre de Ingeniería en Sistemas Computacionales en el Instituto Tecnológico de Morelia (TecNM). Mi pasión por la programación comenzó temprano — fundamos el club de programación competitiva GAPC C120 en el CETIs 120 Edmundo Canedo, Jessica Jaimes y yo, y desde entonces he clasificado para la Final Mexicana del ICPC y uno de mis próximos objetivos es clasificar para el ICPC Latin America Championship.">
+                    I'm a 5th semester Computer Systems Engineering student at the Instituto Tecnológico de Morelia (TecNM). My passion for programming started early — Edmundo Canedo, Jessica Jaimes, and I founded the competitive programming club GAPC C120 at CETIs 120, and since then I have qualified for the national finals (ICPC Mexico Finals) and one of my next goals is to qualify for the ICPC Latin America Championship.
+                    </p>
+                    <p data-en="I focus on algorithms, data structures, and building software that solves real problems. When I'm not coding, I'm training other students for programming competitions or working on full-stack projects." data-es="Me enfoco en algoritmos, estructuras de datos y construir software que resuelva problemas reales. Cuando no estoy programando, entreno a otros estudiantes para competencias de programación o trabajo en proyectos full-stack.">
+                        I focus on algorithms, data structures, and building software that solves real problems. When I'm not coding, I'm training other students for programming competitions or working on full-stack projects.
+                    </p>
+                </div>
+                <div class="about__details">
+                    <div class="about__detail">
+                        <span class="about__label mono" data-en="Location" data-es="Ubicación">Location</span>
+                        <span class="about__value">Morelia, Michoacán, MX</span>
+                    </div>
+                    <div class="about__detail">
+                        <span class="about__label mono" data-en="Education" data-es="Educación">Education</span>
+                        <span class="about__value" data-en="B.Eng. Computer Systems — TecNM" data-es="Ing. en Sistemas Computacionales — TecNM">B.Eng. Computer Systems — TecNM</span>
+                    </div>
+                    <div class="about__detail">
+                        <span class="about__label mono" data-en="Expected Graduation" data-es="Graduación esperada">Expected Graduation</span>
+                        <span class="about__value" data-en="June 2028" data-es="Junio 2028">June 2028</span>
+                    </div>
+                    <div class="about__detail">
+                        <span class="about__label mono" data-en="Languages" data-es="Idiomas">Languages</span>
+                        <span class="about__value" data-en="Spanish (native), English" data-es="Español (nativo), Inglés">Spanish (native), English</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Skills -->
+            <div class="skills">
+                <h3 class="skills__title" data-en="Technical Skills" data-es="Habilidades Técnicas">Technical Skills</h3>
+                <div class="skills__grid">
+                    <div class="skill-group">
+                        <span class="skill-group__label mono" data-en="Languages" data-es="Lenguajes">Languages</span>
+                        <div class="skill-group__tags">
+                            <span class="tag">C++</span>
+                            <span class="tag">Java</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">PHP</span>
+                            <span class="tag">SQL</span>
+                            <span class="tag">HTML/CSS</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-group__label mono" data-en="Tools &amp; Platforms" data-es="Herramientas y Plataformas">Tools &amp; Platforms</span>
+                        <div class="skill-group__tags">
+                            <span class="tag">Git / GitHub</span>
+                            <span class="tag">VS Code</span>
+                            <span class="tag">LaTeX</span>
+                            <span class="tag">Linux</span>
+                            <span class="tag">.NET</span>
+                            <span class="tag">React</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-group__label mono" data-en="Domains" data-es="Dominios">Domains</span>
+                        <div class="skill-group__tags">
+                            <span class="tag" data-en="Competitive Programming" data-es="Programación Competitiva">Competitive Programming</span>
+                            <span class="tag" data-en="Algorithms &amp; Data Structures" data-es="Algoritmos y Estructuras de Datos">Algorithms &amp; Data Structures</span>
+                            <span class="tag" data-en="Full-Stack Development" data-es="Desarrollo Full-Stack">Full-Stack Development</span>
+                            <span class="tag" data-en="Database Design" data-es="Diseño de Bases de Datos">Database Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section section--alt" id="projects">
+        <div class="container">
+            <h2 class="section__title" data-en="Projects" data-es="Proyectos">Projects</h2>
+            <div class="projects__grid">
+
+                <article class="project-card">
+                    <div class="project-card__header">
+                        <span class="project-card__number mono">01</span>
+                        <span class="project-card__year mono">2025</span>
+                    </div>
+                    <h3 class="project-card__title">CuentaClara</h3>
+                    <p class="project-card__desc" data-en="Unified personal finance and shared expense management platform. Track individual spending, split bills with groups, and visualize your financial health — all in one place." data-es="Plataforma unificada de finanzas personales y gestión de gastos compartidos. Rastrea gastos individuales, divide cuentas con grupos y visualiza tu salud financiera — todo en un solo lugar.">
+                        Unified personal finance and shared expense management platform. Track individual spending, split bills with groups, and visualize your financial health — all in one place.
+                    </p>
+                    <div class="project-card__tags">
+                        <span class="tag tag--sm">Software Engineering</span>
+                        <span class="tag tag--sm">Full-Stack</span>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-card__header">
+                        <span class="project-card__number mono">02</span>
+                        <span class="project-card__year mono">2025</span>
+                    </div>
+                    <h3 class="project-card__title">Winter Coding Cup 2025</h3>
+                    <p class="project-card__desc" data-en="Organized and managed a competitive programming contest. Handled problem curation, participant verification, team registration, and certificate generation for all participants." data-es="Organicé y administré un concurso de programación competitiva. Curación de problemas, verificación de participantes, registro de equipos y generación de certificados para todos los participantes.">
+                        Organized and managed a competitive programming contest. Handled problem curation, participant verification, team registration, and certificate generation for all participants.
+                    </p>
+                    <div class="project-card__tags">
+                        <span class="tag tag--sm" data-en="Event Organization" data-es="Organización de Eventos">Event Organization</span>
+                        <span class="tag tag--sm" data-en="Competitive Programming" data-es="Programación Competitiva">Competitive Programming</span>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-card__header">
+                        <span class="project-card__number mono">03</span>
+                        <span class="project-card__year mono">2024</span>
+                    </div>
+                    <h3 class="project-card__title" data-en="Certificate Automation Tools" data-es="Herramientas de Automatización de Certificados">Certificate Automation Tools</h3>
+                    <p class="project-card__desc" data-en="Python-based tools for batch processing competition certificates. Automated participant data management, template population, and PDF generation for programming contests." data-es="Herramientas basadas en Python para procesamiento masivo de certificados de competencias. Automatización de gestión de datos de participantes, llenado de plantillas y generación de PDFs para concursos de programación.">
+                        Python-based tools for batch processing competition certificates. Automated participant data management, template population, and PDF generation for programming contests.
+                    </p>
+                    <div class="project-card__tags">
+                        <span class="tag tag--sm">Python</span>
+                        <span class="tag tag--sm" data-en="Automation" data-es="Automatización">Automation</span>
+                    </div>
+                </article>
+
+            </div>
+            <p class="projects__more mono fade-in" data-en="More projects coming soon." data-es="Más proyectos próximamente.">More projects coming soon.</p>
+        </div>
+    </section>
+
+    <!-- Competitive Programming -->
+    <section class="section" id="competitive">
+        <div class="container">
+            <h2 class="section__title" data-en="Competitive Programming" data-es="Programación Competitiva">Competitive Programming</h2>
+            <div class="cp__grid">
+                <div class="cp__text">
+                    <p data-en="Competitive programming has been central to my journey. I started competing in high school, founded a club to share what I learned, and have been pushing my limits ever since." data-es="La programación competitiva ha sido central en mi trayectoria. Comencé a competir en bachillerato, fundé un club para compartir lo que aprendí, y desde entonces no he dejado de superar mis límites.">
+                        Competitive programming has been central to my journey. I started competing in high school, founded a club to share what I learned, and have been pushing my limits ever since.
+                    </p>
+                </div>
+                <div class="cp__achievements">
+                    <div class="achievement">
+                        <div class="achievement__icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                        </div>
+                        <div class="achievement__content">
+                            <h4 class="achievement__title" data-en="ICPC Mexico Finals Qualifier" data-es="Clasificado a la Final Mexicana del ICPC">ICPC Mexico Finals Qualifier</h4>
+                            <p class="achievement__desc" data-en="Qualified for the ICPC Mexico finals, representing TecNM at the highest level of programming competition." data-es="Clasificado a la final nacional del ICPC, representando al TecNM en el más alto nivel de programación competitiva.">Qualified for the ICPC national finals, representing TecNM at the highest level of programming competition.</p>
+                            </div>
+                    </div>
+                    <div class="achievement">
+                        <div class="achievement__icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                        </div>
+                        <div class="achievement__content">
+                            <h4 class="achievement__title" data-en="3rd Place — Coding Cup 2022" data-es="3er Lugar — Coding Cup 2022">3rd Place — Coding Cup 2022</h4>
+                            <p class="achievement__desc" data-en="Competed against teams from both high school and university divisions, earning a podium finish." data-es="Competí contra equipos de bachillerato y licenciatura, obteniendo un lugar en el podio.">Competed against teams from both high school and university divisions, earning a podium finish.</p>
+                        </div>
+                    </div>
+                    <div class="achievement">
+                        <div class="achievement__icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="achievement__content">
+                            <h4 class="achievement__title" data-en="Founder — GAPC C120" data-es="Fundador — GAPC C120">Founder — GAPC C120</h4>
+                            <p class="achievement__desc" data-en="Founded the competitive programming club at CETIs 120. Designed and taught courses from fundamentals to advanced algorithms and data structures." data-es="Fundé el club de programación competitiva en CETIs 120. Diseñé e impartí cursos desde fundamentos hasta algoritmos avanzados y estructuras de datos.">Founded the competitive programming club at CETIs 120. Designed and taught courses from fundamentals to advanced algorithms and data structures.</p>
+                        </div>
+                    </div>
+                    <div class="achievement">
+                        <div class="achievement__icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                        </div>
+                        <div class="achievement__content">
+                            <h4 class="achievement__title" data-en="OMICH Coach" data-es="Entrenador OMICH">OMICH Coach</h4>
+                            <p class="achievement__desc" data-en="Served as coach for the Olimpiada Michoacana de Informática, mentoring students for regional informatics competitions." data-es="Fungí como entrenador para la Olimpiada Michoacana de Informática, mentoreando estudiantes para competencias regionales de informática.">Served as coach for the Olimpiada Michoacana de Informática, mentoring students for regional informatics competitions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="cp__profiles">
+                    <h3 class="cp__profiles-title mono" data-en="Online Profiles" data-es="Perfiles en Línea">Online Profiles</h3>
+                    <div class="cp__profiles-grid">
+                        <a href="https://codeforces.com/profile/Robert.x" target="_blank" rel="noopener" class="profile-link">
+                            <span class="profile-link__name">Codeforces</span>
+                            <span class="profile-link__handle mono">Robert.x</span>
+                        </a>
+                        <a href="https://omegaup.com/profile/Robert.x" target="_blank" rel="noopener" class="profile-link">
+                            <span class="profile-link__name">omegaUp</span>
+                            <span class="profile-link__handle mono">Robert.x</span>
+                        </a>
+                        <a href="https://leetcode.com/Robert0X" target="_blank" rel="noopener" class="profile-link">
+                            <span class="profile-link__name">LeetCode</span>
+                            <span class="profile-link__handle mono">Robert0X</span>
+                        </a>
+                        <a href="https://github.com/Robert0X" target="_blank" rel="noopener" class="profile-link">
+                            <span class="profile-link__name">GitHub</span>
+                            <span class="profile-link__handle mono">Robert0X</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section section--alt" id="contact">
+        <div class="container">
+            <h2 class="section__title" data-en="Contact" data-es="Contacto">Contact</h2>
+            <div class="contact__grid">
+                <div class="contact__info">
+                    <p data-en="Interested in working together, have a question about competitive programming, or just want to say hello? Feel free to reach out." data-es="¿Interesado en trabajar juntos, tienes una pregunta sobre programación competitiva, o simplemente quieres saludar? No dudes en contactarme.">
+                        Interested in working together, have a question about competitive programming, or just want to say hello? Feel free to reach out.
+                    </p>
+                    <div class="contact__links">
+                        <a href="mailto:robertcgr.0x@gmail.com" class="contact__link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            <span>robertcgr.0x@gmail.com</span>
+                        </a>
+                        <a href="https://github.com/Robert0X" target="_blank" rel="noopener" class="contact__link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            <span>github.com/Robert0X</span>
+                        </a>
+                    </div>
+                </div>
+                <form class="contact__form" id="contactForm" action="https://formsubmit.co/robertcgr.0x@gmail.com" method="POST">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="#">
+                    <div class="form-group">
+                        <label for="name" class="form-label mono" data-en="Name" data-es="Nombre">Name</label>
+                        <input type="text" id="name" name="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label mono">Email</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label mono" data-en="Message" data-es="Mensaje">Message</label>
+                        <textarea id="message" name="message" class="form-input form-input--textarea" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="form-button" data-en="Send Message" data-es="Enviar Mensaje">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p class="footer__copy">&copy; 2025 José Roberto García Correa</p>
+            <p class="footer__note mono" data-en="Built with HTML, CSS &amp; JavaScript." data-es="Construido con HTML, CSS y JavaScript.">Built with HTML, CSS &amp; JavaScript.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
