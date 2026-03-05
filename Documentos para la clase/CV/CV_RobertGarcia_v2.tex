@@ -1,0 +1,160 @@
+\documentclass[11pt, a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.55in, top=0.5in, bottom=0.5in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{parskip}
+
+% --- Colors ---
+\definecolor{accent}{HTML}{1D4ED8}
+\definecolor{darktext}{HTML}{1C1917}
+\definecolor{secondary}{HTML}{57534E}
+\definecolor{light}{HTML}{A8A29E}
+
+% --- Hyperlinks ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent,
+    pdfauthor={José Roberto García Correa},
+    pdftitle={CV - José Roberto García Correa}
+}
+
+% --- Fonts ---
+% Using default Computer Modern font
+
+% --- Section Formatting ---
+\titleformat{\section}
+    {\normalsize\bfseries\color{darktext}\uppercase}
+    {}
+    {0em}
+    {}
+    [\vspace{-0.6em}\color{accent}\rule{\textwidth}{0.7pt}]
+
+\titleformat{\subsection}
+    {\small\bfseries\color{darktext}}
+    {}
+    {0em}
+    {}
+
+\titlespacing*{\section}{0pt}{0.7em}{0.4em}
+\titlespacing*{\subsection}{0pt}{0.5em}{0.1em}
+
+% --- List Formatting ---
+\setlist[itemize]{leftmargin=1.2em, itemsep=1pt, parsep=0pt, topsep=3pt}
+
+% --- Paragraph spacing ---
+\setlength{\parskip}{0pt}
+
+% --- No Page Numbers ---
+\pagestyle{empty}
+
+% --- Document ---
+\begin{document}
+
+% ============================================================
+% HEADER
+% ============================================================
+\begin{center}
+    {\Large\bfseries\color{darktext} José Roberto García Correa}\\[4pt]
+    {\footnotesize\color{secondary}
+        Tel.\ +52 443 564 8436 \quad$\cdot$\quad
+        Email: \href{mailto:robertcgr.0x@gmail.com}{robertcgr.0x@gmail.com} \quad$\cdot$\quad
+        Web: \href{https://robert0x.github.io/portfolio}{robert0x.github.io/portfolio}
+    }\\[2pt]
+    {\footnotesize\color{secondary}
+        GitHub: \href{https://github.com/Robert0X}{Robert0X} \quad$\cdot$\quad
+        LinkedIn: \href{https://www.linkedin.com/in/jos\%C3\%A9-roberto-garc\%C3\%ADa-correa-15b37b360/}{josé-roberto-garcía-correa} \quad$\cdot$\quad
+        Codeforces: \href{https://codeforces.com/profile/Robert.x}{Robert.x}
+    }
+\end{center}
+
+\vspace{-0.3em}
+
+% ============================================================
+% EDUCATION
+% ============================================================
+\section{Educación}
+
+\subsection[TecNM]{Instituto Tecnológico de Morelia (TecNM) \hfill \textnormal{\footnotesize\color{secondary}Ago 2023 -- Jun 2028}}
+\vspace{0.1em}
+{\small\textit{\color{secondary}Licenciatura en Ingeniería en Sistemas Computacionales $\cdot$ 6to semestre}}\\[3pt]
+{\footnotesize\color{secondary}Cursos relevantes:} {\footnotesize Fundamentos de Programación, POO, Estructuras de Datos, Tópicos Avanzados de Programación, Fundamentos de Bases de Datos, Ecuaciones Diferenciales, Electrónica Digital, Investigación de Operaciones, Programación Web.}
+
+\subsection[CETIs]{CETIs 120 \hfill \textnormal{\footnotesize\color{secondary}Ago 2020 -- Jun 2023}}
+\vspace{0.1em}
+{\small\textit{\color{secondary}Especialización en Ciencias Exactas (Física, Matemáticas)}}\\[3pt]
+{\footnotesize Resolución de problemas con enfoque en programación. Cursos: Desarrollo de Aplicaciones Móviles, Desarrollo Web, Desarrollo de Software con Programación Estructurada.}
+
+% ============================================================
+% COMPETITIVE PROGRAMMING
+% ============================================================
+\section{Programación Competitiva}
+
+\begin{itemize}
+    \item \textbf{\small ICPC Mexico Finals 2025} --- Clasificado al nacional del International Collegiate Programming Contest, representando al TecNM.
+    \item \textbf{\small Coding Cup 2022} --- 3er lugar, compitiendo contra equipos de bachillerato y licenciatura.
+    \item \textbf{\small OMICH} --- Participante y posteriormente entrenador de la Olimpiada Michoacana de Informática.
+    \item \textbf{\small Winter Coding Cup 2025} --- Organizador principal: curación de problemas, registro de equipos y logística del evento.
+\end{itemize}
+
+\vspace{0.1em}
+{\footnotesize\color{secondary} Perfiles:
+\href{https://codeforces.com/profile/Robert.x}{Codeforces} $\cdot$
+\href{https://omegaup.com/profile/Robert.x}{omegaUp} $\cdot$
+\href{https://leetcode.com/Robert0X}{LeetCode}}
+
+% ============================================================
+% PROJECTS
+% ============================================================
+\section{Experiencia en Proyectos}
+
+\subsection[Cafeteria]{Sistema de Gestión de Cafetería --- TecNM \hfill \textnormal{\footnotesize\color{secondary}2024}}
+\vspace{0.1em}
+{\small\textit{\color{secondary}Desarrollo Full-Stack $\cdot$ .NET 8, React}}\\[3pt]
+{\footnotesize Sistema integral para la administración de la cafetería institucional del TecNM. Gestión de inventario, ventas, reportes y control de usuarios.}
+
+\subsection[ACSI]{ACSI --- Administrador del Centro de Salud Institucional \hfill \textnormal{\footnotesize\color{secondary}Oct -- Dic 2022}}
+\vspace{0.1em}
+{\small\textit{\color{secondary}Colaborador Full-Stack $\cdot$ HTML, CSS, JS, PHP, SQL, C++}}\\[3pt]
+{\footnotesize Aplicación para gestionar información de un centro de salud escolar: pacientes, medicamentos, recetas e inventario.}
+
+% ============================================================
+% VOLUNTEERING & TEACHING
+% ============================================================
+\section{Voluntariado y Enseñanza}
+
+\subsection[GAPC]{Fundador y Entrenador --- GAPC C120 \hfill \textnormal{\footnotesize\color{secondary}Mar 2022 -- Dic 2023}}
+\vspace{0.1em}
+{\small\textit{\color{secondary}Club de Programación Competitiva del CETIs 120}}\\[3pt]
+{\footnotesize Fundé el club de programación competitiva. Diseñé e impartí cursos desde fundamentos hasta algoritmos avanzados, estructuras de datos, optimización y complejidad computacional.}
+
+\subsection[OMICH]{Entrenador --- Olimpiada Michoacana de Informática (OMICH)}
+\vspace{0.1em}
+{\footnotesize Mentoría a estudiantes para competencias regionales de informática.}
+
+\subsection[Instructor]{Instructor de Programación Competitiva \hfill \textnormal{\footnotesize\color{secondary}Actual}}
+\vspace{0.1em}
+{\footnotesize Clases de programación competitiva a estudiantes de bachillerato: Two Pointers, Queue/Deque, estructuras de datos fundamentales.}
+
+% ============================================================
+% SKILLS
+% ============================================================
+\section{Habilidades Técnicas}
+
+\vspace{0.2em}
+{\footnotesize
+\begin{tabularx}{\textwidth}{@{}r X@{}}
+    \textbf{Lenguajes:} & C++, Java, JavaScript, TypeScript, Python, PHP, SQL, HTML/CSS \\[2pt]
+    \textbf{Frameworks / Herramientas:} & .NET, React, Git/GitHub, \LaTeX, Visual Studio Code, Linux \\[2pt]
+    \textbf{Dominios:} & Programación competitiva, algoritmos y estructuras de datos, desarrollo full-stack, diseño de bases de datos
+\end{tabularx}
+}
+
+\end{document}
