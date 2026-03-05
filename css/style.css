@@ -850,3 +850,50 @@ button {
         padding: var(--space-xl);
     }
 }
+
+/* --- Typing Animation --- */
+.hero__typing {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    margin-bottom: var(--space-sm);
+    min-height: 1.7em;
+}
+
+.typing-wrapper {
+    display: inline;
+}
+
+.typing-text {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--color-accent);
+}
+
+.typing-cursor {
+    font-weight: 300;
+    color: var(--color-accent);
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* --- CV Download Button --- */
+.hero__link--accent {
+    background: var(--color-accent);
+    color: #ffffff !important;
+    border-color: var(--color-accent) !important;
+}
+
+.hero__link--accent:hover {
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover) !important;
+    color: #ffffff !important;
+}
+
+.hero__link--accent svg {
+    stroke: #ffffff;
+}
