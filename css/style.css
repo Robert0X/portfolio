@@ -897,3 +897,91 @@ button {
 .hero__link--accent svg {
     stroke: #ffffff;
 }
+
+/* --- Experience Section --- */
+.experience__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.exp-card {
+    display: flex;
+    gap: var(--space-xl);
+    align-items: stretch;
+}
+
+.exp-card__timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+    padding-top: 6px;
+}
+
+.exp-card__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.exp-card__line {
+    width: 1.5px;
+    flex: 1;
+    background: var(--color-border);
+    margin-top: 4px;
+}
+
+.exp-card__content {
+    flex: 1;
+    padding-bottom: var(--space-2xl);
+}
+
+.exp-card:last-child .exp-card__content {
+    padding-bottom: 0;
+}
+
+.exp-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: 4px;
+}
+
+.exp-card__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.exp-card__date {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+    padding-top: 3px;
+}
+
+.exp-card__org {
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+}
+
+.exp-card__desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+    .exp-card {
+        gap: var(--space-md);
+    }
+}
