@@ -1,0 +1,17 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+*.resolved
+.vscode/
+*.swp
+*.swo
+*~
+
+# AI/Tool generated
+.gemini/
+
+# Misc
+cls
