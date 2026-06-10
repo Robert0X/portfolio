@@ -561,11 +561,50 @@ button {
     gap: var(--space-sm);
 }
 
+.project-card__links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.project-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    transition: color var(--transition);
+}
+
+.project-card__link:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.project-card__status {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+}
+
 .projects__more {
     text-align: center;
     color: var(--color-text-tertiary);
     font-size: 0.8rem;
     margin-top: var(--space-2xl);
+}
+
+.projects__more-link {
+    color: var(--color-text-secondary);
+    transition: color var(--transition);
+}
+
+.projects__more-link:hover {
+    color: var(--color-accent);
 }
 
 /* --- Competitive Programming --- */
