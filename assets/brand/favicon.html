@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- Source template for the favicon set. Rendered with Playwright at
+     512/192/180/32/16 px (element screenshot of #icon). -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #888; display: grid; place-items: start; }
+        #icon {
+            --size: 512px;
+            width: var(--size);
+            height: var(--size);
+            background: #1c1917;
+            border-radius: calc(var(--size) * 0.22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+        }
+        #icon .r {
+            color: #fafaf9;
+            font-size: calc(var(--size) * 0.62);
+            line-height: 1;
+            margin-left: calc(var(--size) * -0.06);
+        }
+        #icon .dot {
+            color: #3b82f6;
+            font-size: calc(var(--size) * 0.62);
+            line-height: 1;
+            margin-left: calc(var(--size) * -0.04);
+        }
+    </style>
+</head>
+<body>
+    <div id="icon"><span class="r">R</span><span class="dot">.</span></div>
+</body>
+</html>
