@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta F — Definitivo (E + bento + mejoras)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+    --paper: #fbfaf7;
+    --paper-2: #f4f2ed;
+    --card: #ffffff;
+    --ink: #131312;
+    --ink-2: #5c5a55;
+    --ink-3: #a3a09a;
+    --rule: #e4e1da;
+    --blue: #2b3cff;
+    --blue-soft: rgba(43,60,255,0.07);
+    --green: #1fa860;
+    --shadow: 0 1px 2px rgba(20,18,12,0.05), 0 16px 40px rgba(20,18,12,0.08);
+}
+[data-theme="dark"] {
+    --paper: #101013;
+    --paper-2: #16161a;
+    --card: #1a1a1f;
+    --ink: #f0efeb;
+    --ink-2: #a5a3a0;
+    --ink-3: #5e5c5a;
+    --rule: #26262b;
+    --blue: #6573ff;
+    --blue-soft: rgba(101,115,255,0.09);
+    --green: #3ecf80;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 16px 40px rgba(0,0,0,0.5);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 16.5px; line-height: 1.7;
+    transition: background 0.4s, color 0.4s;
+    -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 36px; }
+
+/* nav: index links + CV button (Eduardo lesson) */
+.nav {
+    position: sticky; top: 0; z-index: 100;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.4s;
+}
+.nav__in { max-width: 1120px; margin: 0 auto; padding: 0 36px; height: 62px; display: flex; align-items: center; gap: 24px; }
+.nav__logo { font-family: 'Familjen Grotesk'; font-weight: 700; font-size: 19px; margin-right: auto; }
+.nav__logo i { font-style: normal; color: var(--blue); }
+.nav a.lnk { color: var(--ink-2); text-decoration: none; font-size: 13.5px; font-family: 'JetBrains Mono', monospace; transition: color 0.2s; }
+.nav a.lnk b { color: var(--ink-3); font-weight: 400; margin-right: 3px; }
+.nav a.lnk:hover { color: var(--blue); }
+.nav__btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    border: 1px solid var(--rule); background: transparent; color: var(--ink-2);
+    padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: all 0.2s;
+}
+.nav__btn:hover { border-color: var(--blue); color: var(--blue); }
+.nav__cv {
+    font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 500;
+    background: var(--blue); color: #fff; text-decoration: none;
+    padding: 8px 16px; border-radius: 4px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav__cv:hover { transform: translateY(-1px); box-shadow: 0 6px 18px color-mix(in srgb, var(--blue) 35%, transparent); }
+
+/* hero: asymmetric + availability pulse */
+.hero { display: grid; grid-template-columns: 1fr 290px; gap: 80px; padding: 96px 0 84px; align-items: end; }
+.hero__role {
+    font-family: 'JetBrains Mono', monospace; font-size: 13.5px; color: var(--blue);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 26px;
+    opacity: 0; animation: fadeup 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s forwards;
+}
+.pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--green); position: relative; }
+.pulse::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid var(--green); animation: pulse 2s ease-out infinite; }
+@keyframes pulse { from { transform: scale(0.6); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+.hero__name { font-family: 'Familjen Grotesk'; font-size: clamp(52px, 8vw, 100px); font-weight: 700; line-height: 0.98; letter-spacing: -0.035em; }
+.hero__name .line { display: block; overflow: hidden; }
+.hero__name .line span { display: inline-block; transform: translateY(110%); animation: lift 0.85s cubic-bezier(0.16,1,0.3,1) forwards; }
+.hero__name .line:nth-child(1) span { animation-delay: 0.12s; }
+.hero__name .line:nth-child(2) span { animation-delay: 0.22s; }
+.hero__name em { font-style: normal; color: var(--blue); }
+.hero__bio { margin-top: 32px; font-size: 19px; color: var(--ink-2); max-width: 47ch; opacity: 0; animation: fadeup 0.8s cubic-bezier(0.16,1,0.3,1) 0.45s forwards; }
+.spec { border-left: 1px solid var(--rule); padding-left: 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px; display: grid; gap: 16px; opacity: 0; animation: fadeup 0.8s cubic-bezier(0.16,1,0.3,1) 0.55s forwards; }
+.spec dt { color: var(--ink-3); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; }
+.spec dd { margin-top: 2px; }
+.spec dd a { color: var(--blue); text-decoration: none; }
+.spec dd .ok { color: var(--green); }
+@keyframes lift { to { transform: none; } }
+@keyframes fadeup { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+/* proof strip: counters (final values in HTML — robust) */
+.proof { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: repeat(4, 1fr); }
+.proof__item { padding: 30px 28px; border-right: 1px solid var(--rule); transition: background 0.3s; }
+.proof__item:last-child { border-right: none; }
+.proof__item:hover { background: var(--blue-soft); }
+.proof__n { font-family: 'Familjen Grotesk'; font-size: 36px; font-weight: 700; letter-spacing: -0.03em; }
+.proof__n i { font-style: normal; color: var(--blue); }
+.proof__l { font-size: 13.5px; color: var(--ink-2); }
+
+/* projects with VISUAL PREVIEWS (browser frames) */
+.sect { padding: 90px 0 30px; }
+.sect__head { display: flex; align-items: baseline; gap: 24px; margin-bottom: 44px; }
+.sect__num { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--blue); }
+.sect__title { font-family: 'Familjen Grotesk'; font-size: 42px; font-weight: 700; letter-spacing: -0.03em; }
+.sect__note { margin-left: auto; font-size: 14px; color: var(--ink-3); }
+.proj {
+    display: grid; grid-template-columns: 460px 1fr; gap: 52px;
+    padding: 40px 0; border-top: 1px solid var(--rule); align-items: center;
+}
+.proj:nth-child(even) { grid-template-columns: 1fr 460px; }
+.proj:nth-child(even) .frame { order: 2; }
+.frame {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--rule); box-shadow: var(--shadow);
+    background: var(--card);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+}
+.proj:hover .frame { transform: translateY(-6px) rotate(-0.4deg); }
+.frame__bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--rule); }
+.frame__bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--rule); }
+.frame__bar span { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-3); margin-left: 8px; }
+.frame__body { height: 230px; position: relative; background: var(--paper-2); }
+/* abstract UI: TGS dashboard */
+.ui-tgs .s { position: absolute; left: 0; top: 0; bottom: 0; width: 64px; background: color-mix(in srgb, var(--blue) 88%, #000); }
+.ui-tgs .s::before { content: ""; position: absolute; left: 14px; top: 18px; width: 36px; height: 36px; border-radius: 9px; background: rgba(255,255,255,0.25); }
+.ui-tgs .h { position: absolute; left: 88px; top: 22px; width: 40%; height: 14px; border-radius: 4px; background: var(--ink-3); opacity: 0.5; }
+.ui-tgs .c1, .ui-tgs .c2, .ui-tgs .c3 { position: absolute; top: 60px; width: 26%; height: 64px; border-radius: 8px; background: var(--card); border: 1px solid var(--rule); }
+.ui-tgs .c1 { left: 88px; } .ui-tgs .c2 { left: calc(88px + 28%); } .ui-tgs .c3 { left: calc(88px + 56%); }
+.ui-tgs .t { position: absolute; left: 88px; right: 24px; top: 144px; bottom: 20px; border-radius: 8px; background: var(--card); border: 1px solid var(--rule); }
+.ui-tgs .t::before { content: ""; position: absolute; inset: 14px; background: repeating-linear-gradient(0deg, var(--rule) 0 1px, transparent 1px 22px); }
+/* abstract UI: StudyVault flashcards */
+.ui-sv .deck { position: absolute; left: 50%; top: 50%; width: 200px; height: 124px; }
+.ui-sv .card-f { position: absolute; inset: 0; border-radius: 12px; background: var(--card); border: 1px solid var(--rule); box-shadow: 0 8px 20px rgba(0,0,0,0.07); }
+.ui-sv .card-f:nth-child(1) { transform: translate(-50%,-50%) rotate(-7deg); }
+.ui-sv .card-f:nth-child(2) { transform: translate(-46%,-54%) rotate(3deg); }
+.ui-sv .card-f:nth-child(3) { transform: translate(-54%,-46%) rotate(-1deg); background: var(--blue); }
+.ui-sv .card-f:nth-child(3)::before { content: "O(n log n)"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 15px; }
+.ui-sv .pill { position: absolute; left: 20px; top: 18px; width: 90px; height: 12px; border-radius: 99px; background: var(--ink-3); opacity: 0.4; }
+/* abstract UI: NoteBook PDF */
+.ui-nb .page { position: absolute; left: 50%; top: 24px; transform: translateX(-50%); width: 168px; bottom: -30px; background: #fff; border: 1px solid var(--rule); border-radius: 4px 4px 0 0; box-shadow: 0 10px 24px rgba(0,0,0,0.1); }
+[data-theme="dark"] .ui-nb .page { background: #ebe9e4; }
+.ui-nb .page::before { content: ""; position: absolute; left: 16px; right: 16px; top: 16px; height: 10px; background: #131312; opacity: 0.8; }
+.ui-nb .page::after { content: ""; position: absolute; left: 16px; right: 16px; top: 38px; bottom: 14px; background: repeating-linear-gradient(0deg, rgba(43,60,255,0.55) 0 2px, transparent 2px 9px, rgba(19,19,18,0.5) 9px 11px, transparent 11px 18px); }
+.proj__meta { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--ink-3); margin-bottom: 12px; }
+.proj__meta .star { color: var(--blue); }
+.proj__name { font-family: 'Familjen Grotesk'; font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+.proj__desc { color: var(--ink-2); font-size: 15.5px; max-width: 56ch; margin-bottom: 20px; }
+.proj__desc b { color: var(--ink); font-weight: 600; }
+.proj__links { display: flex; gap: 22px; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+.proj__links a { color: var(--blue); text-decoration: none; }
+.proj__links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.proj__links .dim { color: var(--ink-3); }
+footer { padding: 80px 0 56px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace; font-size: 12.5px; display: flex; justify-content: space-between; }
+@media (max-width: 900px) { .hero, .proj, .proj:nth-child(even) { grid-template-columns: 1fr; } .proj:nth-child(even) .frame { order: 0; } .proof { grid-template-columns: 1fr 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } .hero__name .line span { transform: none; } .hero__role, .hero__bio, .spec { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav__in">
+        <span class="nav__logo">Robert<i>.</i></span>
+        <a class="lnk" href="#"><b>01</b>About</a>
+        <a class="lnk" href="#"><b>02</b>Work</a>
+        <a class="lnk" href="#"><b>03</b>CP</a>
+        <a class="lnk" href="#"><b>04</b>Experience</a>
+        <a class="lnk" href="#"><b>05</b>Contact</a>
+        <button class="nav__btn">ES</button>
+        <button class="nav__btn" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">☾/☀</button>
+        <a class="nav__cv" href="#">CV ↓</a>
+    </div>
+</nav>
+
+<div class="wrap">
+    <header class="hero">
+        <div>
+            <p class="hero__role"><span class="pulse"></span> open to internships — software engineer · competitive programmer</p>
+            <h1 class="hero__name">
+                <span class="line"><span>José Roberto</span></span>
+                <span class="line"><span>García Correa<em>.</em></span></span>
+            </h1>
+            <p class="hero__bio">I build full-stack systems with the rigor of a competitive programmer — and train the next generation of them.</p>
+        </div>
+        <dl class="spec">
+            <div><dt>Currently</dt><dd>Computer Systems Eng. @ TecNM — 6th sem</dd></div>
+            <div><dt>Peak</dt><dd>ICPC Mexico Finals 2025</dd></div>
+            <div><dt>Handle</dt><dd><a href="#">Robert.x ↗ codeforces</a></dd></div>
+            <div><dt>Status</dt><dd><span class="ok">● available</span> — Morelia, MX</dd></div>
+        </dl>
+    </header>
+</div>
+
+<section class="proof">
+    <div class="proof__item"><div class="proof__n">ICPC <i>’25</i></div><div class="proof__l">Mexico Finals — qualified</div></div>
+    <div class="proof__item"><div class="proof__n">3<i>rd</i></div><div class="proof__l">place — Coding Cup 2022</div></div>
+    <div class="proof__item"><div class="proof__n">1 <i>club</i></div><div class="proof__l">founded & coached — GAPC C120</div></div>
+    <div class="proof__item"><div class="proof__n">4<i>+</i></div><div class="proof__l">years competing & teaching</div></div>
+</section>
+
+<div class="wrap">
+    <section class="sect">
+        <div class="sect__head">
+            <span class="sect__num">02 / work</span>
+            <h2 class="sect__title">Selected projects</h2>
+            <span class="sect__note">public code — the repos are the proof</span>
+        </div>
+
+        <article class="proj">
+            <div class="frame">
+                <div class="frame__bar"><i></i><i></i><i></i><span>tgs-itm · dashboard</span></div>
+                <div class="frame__body ui-tgs"><div class="s"></div><div class="h"></div><div class="c1"></div><div class="c2"></div><div class="c3"></div><div class="t"></div></div>
+            </div>
+            <div>
+                <p class="proj__meta"><span class="star">★ featured</span> · 2026 · Next.js · TypeScript · Prisma · PostgreSQL</p>
+                <h3 class="proj__name">TGS-ITM</h3>
+                <p class="proj__desc">Sports activities management system for <b>Club Deportivo Morelia</b> — typed end-to-end, <b>sprint-driven</b> with enforced commit conventions, NextAuth v5 and Prisma on Neon.</p>
+                <div class="proj__links"><a href="#">case study →</a><a href="#">code ↗</a><span class="dim">~12k LOC</span></div>
+            </div>
+        </article>
+
+        <article class="proj">
+            <div class="frame">
+                <div class="frame__bar"><i></i><i></i><i></i><span>studyvault · flashcards</span></div>
+                <div class="frame__body ui-sv"><span class="pill"></span><div class="deck"><div class="card-f"></div><div class="card-f"></div><div class="card-f"></div></div></div>
+            </div>
+            <div>
+                <p class="proj__meta">2026 · PHP (OOP) · MySQL · hand-rolled MVC</p>
+                <h3 class="proj__name">StudyVault</h3>
+                <p class="proj__desc">Study platform — subjects, resources, <b>flashcards</b> and a <b>competitive programming module</b>. MVC built from scratch, <b>no framework</b>: PDO prepared statements, sessions, JSON API.</p>
+                <div class="proj__links"><a href="#">case study →</a><a href="#">code ↗</a></div>
+            </div>
+        </article>
+
+        <article class="proj">
+            <div class="frame">
+                <div class="frame__bar"><i></i><i></i><i></i><span>notebook-cp · Book.pdf</span></div>
+                <div class="frame__body ui-nb"><div class="page"></div></div>
+            </div>
+            <div>
+                <p class="proj__meta">2026 · Python · LaTeX · CLI</p>
+                <h3 class="proj__name">NoteBook CP</h3>
+                <p class="proj__desc">ICPC team notebook generator — <b>.cpp in, print-ready PDF out</b>, with table of contents and syntax highlighting. The tool behind my team's contest notebook.</p>
+                <div class="proj__links"><a href="#">case study →</a><a href="#">code ↗</a></div>
+            </div>
+        </article>
+    </section>
+
+    <footer>
+        <span>© 2026 José Roberto García Correa</span>
+        <span>built by hand — zero dependencies</span>
+    </footer>
+</div>
+</body>
+</html>

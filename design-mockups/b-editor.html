@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta B — Editor + Judge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,700;0,900;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #14141f;
+    --bg-deep: #0f0f17;
+    --surface: #1c1c2a;
+    --surface-2: #232336;
+    --text: #d9dcf2;
+    --text-dim: #8b8fad;
+    --text-faint: #565a78;
+    --border: #2a2a40;
+    --ac: #7ce38b;          /* verdict green — primary accent */
+    --blue: #82aaff;
+    --yellow: #e6c07b;
+    --red: #f07896;
+    --purple: #c39ac9;
+    --sans: 'Schibsted Grotesk', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 32px; }
+
+/* editor tab bar (nav) */
+.tabs {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: stretch;
+    font-family: var(--mono); font-size: 13px;
+    height: 46px;
+}
+.tabs__dots { display: flex; gap: 7px; align-items: center; padding: 0 18px; border-right: 1px solid var(--border); }
+.tabs__dots i { width: 11px; height: 11px; border-radius: 50%; }
+.tabs a {
+    display: flex; align-items: center; padding: 0 18px;
+    color: var(--text-faint); text-decoration: none;
+    border-right: 1px solid var(--border);
+}
+.tabs a.active { background: var(--bg); color: var(--ac); box-shadow: inset 0 2px 0 var(--ac); }
+.tabs a:hover:not(.active) { color: var(--text-dim); }
+.tabs__right { margin-left: auto; display: flex; align-items: center; gap: 14px; padding: 0 18px; color: var(--text-faint); }
+.tabs__right .toggle { cursor: pointer; }
+.tabs__right .toggle:hover { color: var(--text); }
+
+/* hero with line-number gutter */
+.editor { display: grid; grid-template-columns: 64px 1fr; }
+.gutter {
+    font-family: var(--mono); font-size: 13px; line-height: 2.2;
+    color: var(--text-faint); text-align: right;
+    padding: 90px 16px 0 0;
+    border-right: 1px solid var(--border);
+    user-select: none;
+    opacity: 0.7;
+}
+.main { padding-left: 48px; }
+.hero { padding: 96px 0 72px; }
+.hero__kicker { font-family: var(--mono); font-size: 14px; color: var(--text-dim); margin-bottom: 20px; }
+.hero__kicker .kw { color: var(--purple); }
+.hero__kicker .str { color: var(--yellow); }
+.hero__name {
+    font-size: clamp(48px, 7vw, 76px);
+    font-weight: 900;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+}
+.hero__name .semi { color: var(--ac); }
+.hero__sub { font-size: 19px; color: var(--text-dim); max-width: 56ch; margin-bottom: 18px; }
+.hero__sub .fn { color: var(--blue); font-family: var(--mono); font-size: 16px; }
+.hero__verdict {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 13.5px;
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 8px 14px; border-radius: 6px; margin-top: 18px;
+}
+.hero__verdict .ok { color: var(--ac); font-weight: 700; }
+.hero__verdict .t { color: var(--text-faint); }
+
+/* section headings as code comments */
+.sect { padding: 56px 0 16px; }
+.sect__head { font-family: var(--mono); font-size: 14px; color: var(--text-faint); margin-bottom: 8px; }
+.sect__title { font-size: 34px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 36px; }
+.sect__title .h { color: var(--ac); }
+
+/* submission-style project cards */
+.subs { display: grid; gap: 16px; }
+.sub {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 26px 30px;
+    display: grid; grid-template-columns: 1fr auto; gap: 8px 24px;
+    transition: border-color 0.2s, transform 0.2s;
+}
+.sub:hover { border-color: var(--ac); transform: translateX(4px); }
+.sub__title { font-size: 20px; font-weight: 700; }
+.sub__title a { color: inherit; text-decoration: none; }
+.sub__title a:hover { color: var(--ac); }
+.sub__verdict {
+    font-family: var(--mono); font-size: 12.5px; font-weight: 700;
+    color: var(--ac); background: rgba(124,227,139,0.1);
+    border: 1px solid rgba(124,227,139,0.35);
+    align-self: start; padding: 3px 10px; border-radius: 99px;
+}
+.sub__desc { grid-column: 1 / -1; color: var(--text-dim); font-size: 15px; max-width: 75ch; }
+.sub__meta { grid-column: 1 / -1; font-family: var(--mono); font-size: 12.5px; color: var(--text-faint); display: flex; gap: 20px; flex-wrap: wrap; margin-top: 6px; }
+.sub__meta .lang { color: var(--yellow); }
+.sub__meta a { color: var(--blue); text-decoration: none; }
+.sub__meta a:hover { text-decoration: underline; }
+
+/* judge table for achievements */
+.judge { font-family: var(--mono); font-size: 14px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.judge__row {
+    display: grid; grid-template-columns: 90px 1fr 130px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+.judge__row:last-child { border-bottom: none; }
+.judge__row > div { padding: 16px 20px; }
+.judge__row .v { color: var(--ac); font-weight: 700; }
+.judge__row .what { font-family: var(--sans); font-size: 15px; }
+.judge__row .what small { display: block; color: var(--text-dim); font-size: 13.5px; }
+.judge__row .when { color: var(--text-faint); text-align: right; }
+
+/* status bar */
+.statusbar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--bg-deep); border-top: 1px solid var(--border);
+    font-family: var(--mono); font-size: 12px; color: var(--text-faint);
+    display: flex; gap: 22px; padding: 7px 20px; z-index: 100;
+}
+.statusbar .git { color: var(--ac); }
+.statusbar .right { margin-left: auto; display: flex; gap: 22px; }
+footer { padding: 64px 0 64px; color: var(--text-faint); font-family: var(--mono); font-size: 13px; }
+@media (max-width: 760px) { .editor { grid-template-columns: 1fr; } .gutter { display: none; } .main { padding-left: 0; } }
+</style>
+</head>
+<body>
+
+<nav class="tabs">
+    <span class="tabs__dots"><i style="background:#f07896"></i><i style="background:#e6c07b"></i><i style="background:#7ce38b"></i></span>
+    <a href="#" class="active">about.md</a>
+    <a href="#">projects/</a>
+    <a href="#">cp.log</a>
+    <a href="#">experience.json</a>
+    <a href="#">contact.sh</a>
+    <div class="tabs__right">
+        <span class="toggle">EN/ES</span>
+        <span class="toggle">☾</span>
+    </div>
+</nav>
+
+<div class="wrap">
+<div class="editor">
+    <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35</div>
+    <div class="main">
+
+        <header class="hero">
+            <p class="hero__kicker"><span class="kw">#include</span> <span class="str">&lt;competitive_programming&gt;</span></p>
+            <h1 class="hero__name">José Roberto<br>García Correa<span class="semi">;</span></h1>
+            <p class="hero__sub">Software engineer & competitive programmer. I train students, build full-stack systems, and chase verdicts — <span class="fn">solve(problem)</span> until it returns <span class="fn">AC</span>.</p>
+            <div class="hero__verdict">
+                <span class="ok">✓ ACCEPTED</span>
+                <span>ICPC Mexico Finals 2025</span>
+                <span class="t">— 21 lines, O(passion)</span>
+            </div>
+        </header>
+
+        <section class="sect">
+            <p class="sect__head">/* 01 — submissions that shipped */</p>
+            <h2 class="sect__title">Projects<span class="h">.</span></h2>
+            <div class="subs">
+                <article class="sub">
+                    <h3 class="sub__title"><a href="#">TGS-ITM</a></h3>
+                    <span class="sub__verdict">AC · 2026</span>
+                    <p class="sub__desc">Sports activities management system for Club Social y Deportivo Morelia. Typed end-to-end: Next.js 16, Prisma + PostgreSQL on Neon, NextAuth v5, sprint-driven with enforced commit conventions.</p>
+                    <div class="sub__meta">
+                        <span class="lang">● TypeScript</span><span>Next.js · Prisma</span><a href="#">view code ↗</a>
+                    </div>
+                </article>
+                <article class="sub">
+                    <h3 class="sub__title"><a href="#">NoteBook CP</a></h3>
+                    <span class="sub__verdict">AC · 2026</span>
+                    <p class="sub__desc">ICPC team notebook generator — drop in .cpp algorithms, run one command, get a print-ready PDF with table of contents and syntax highlighting.</p>
+                    <div class="sub__meta">
+                        <span class="lang">● Python + LaTeX</span><span>CLI</span><a href="#">view code ↗</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="sect">
+            <p class="sect__head">/* 02 — judge history */</p>
+            <h2 class="sect__title">Competitive<span class="h">.</span></h2>
+            <div class="judge">
+                <div class="judge__row">
+                    <div class="v">AC</div>
+                    <div class="what">ICPC Mexico Finals 2025 <small>Qualified — representing TecNM at the national finals</small></div>
+                    <div class="when">2025</div>
+                </div>
+                <div class="judge__row">
+                    <div class="v">AC</div>
+                    <div class="what">Coding Cup — 3rd place <small>Against high school & university divisions</small></div>
+                    <div class="when">2022</div>
+                </div>
+                <div class="judge__row">
+                    <div class="v">AC</div>
+                    <div class="what">GAPC C120 — Founder & coach <small>Built my high school's competitive programming club</small></div>
+                    <div class="when">2022–23</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>// © 2026 José Roberto García Correa — compiled with g++ -O2 -Wall</footer>
+    </div>
+</div>
+</div>
+
+<div class="statusbar">
+    <span class="git"> main*</span>
+    <span>UTF-8</span>
+    <span>C++20</span>
+    <span class="right"><span>Ln 42, Col 7</span><span>ES → EN</span><span>Morelia, MX</span></span>
+</div>
+</body>
+</html>
