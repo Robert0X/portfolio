@@ -277,41 +277,6 @@ button {
     align-items: end;
 }
 
-.hero__role {
-    font-family: var(--font-mono);
-    font-size: 13.5px;
-    color: var(--blue);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 26px;
-    opacity: 0;
-    animation: fadeup 0.7s var(--ease) 0.05s forwards;
-}
-
-.pulse {
-    flex-shrink: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    position: relative;
-}
-
-.pulse::after {
-    content: "";
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 1px solid var(--green);
-    animation: pulse 2s ease-out infinite;
-}
-
-@keyframes pulse {
-    from { transform: scale(0.6); opacity: 1; }
-    to { transform: scale(1.6); opacity: 0; }
-}
-
 .hero__name {
     font-family: var(--font-display);
     font-size: clamp(48px, 8vw, 100px);
@@ -1205,7 +1170,6 @@ button {
         transform: none;
     }
 
-    .hero__role,
     .hero__bio,
     .spec {
         opacity: 1;
