@@ -15,6 +15,7 @@
     --rule: #e4e1da;
     --blue: #2b3cff;
     --blue-soft: rgba(43, 60, 255, 0.07);
+    --on-accent: #ffffff; /* text on --blue surfaces */
     --green: #157a47;
     --shadow: 0 1px 2px rgba(20, 18, 12, 0.05), 0 16px 40px rgba(20, 18, 12, 0.08);
 
@@ -36,6 +37,7 @@
     --rule: #26262b;
     --blue: #6573ff;
     --blue-soft: rgba(101, 115, 255, 0.09);
+    --on-accent: #0e0e12; /* dark blue is light enough to need dark text for AA */
     --green: #3ecf80;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.5);
     color-scheme: dark;
@@ -93,7 +95,7 @@ button {
 
 ::selection {
     background: var(--blue);
-    color: #fff;
+    color: var(--on-accent);
 }
 
 /* --- Utilities --- */
@@ -200,7 +202,7 @@ html.reveal-ready [data-reveal].is-visible {
     font-size: 12.5px;
     font-weight: 500;
     background: var(--blue);
-    color: #fff;
+    color: var(--on-accent);
     padding: 8px 16px;
     border-radius: 4px;
     transition: transform 0.2s var(--ease), box-shadow 0.2s;
@@ -209,13 +211,6 @@ html.reveal-ready [data-reveal].is-visible {
 .nav__cv:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 18px color-mix(in srgb, var(--blue) 35%, transparent);
-}
-
-/* dark blue is light enough to need dark text for AA contrast */
-[data-theme="dark"] .nav__cv,
-[data-theme="dark"] .form-button {
-    color: #0e0e12;
-    font-weight: 600;
 }
 
 .nav__mobile-toggle {
@@ -714,12 +709,14 @@ html.reveal-ready [data-reveal].is-visible {
     inset: 0;
     display: grid;
     place-items: center;
-    color: #fff;
+    color: var(--on-accent);
     font-family: var(--font-mono);
     font-size: 15px;
 }
 
-/* abstract UI: NoteBook PDF */
+/* abstract UI: NoteBook PDF.
+   The page is a physical sheet of paper: it stays light in BOTH themes
+   on purpose, so its colors are literal rather than theme tokens. */
 .ui-nb .page {
     position: absolute;
     left: 50%;
@@ -1052,7 +1049,7 @@ html.reveal-ready [data-reveal].is-visible {
     font-size: 13.5px;
     font-weight: 500;
     background: var(--blue);
-    color: #fff;
+    color: var(--on-accent);
     padding: 13px 30px;
     border-radius: 4px;
     transition: transform 0.25s var(--ease), box-shadow 0.25s;
@@ -1086,7 +1083,9 @@ html.reveal-ready [data-reveal].is-visible {
     color: var(--blue);
 }
 
-/* --- Responsive --- */
+/* --- Responsive ---
+   Tiers: 900px = tablet (single-column grids, mobile nav),
+   600px = phone (hero photo stacks), 520px = compact (1-col bento). */
 @media (max-width: 900px) {
     .nav__links {
         display: none;

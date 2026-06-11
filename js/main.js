@@ -7,6 +7,25 @@
 (function () {
   "use strict";
 
+  // --- Helpers ---
+  function storeGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function storeSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {}
+  }
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
   // --- Theme Manager ---
   // data-theme is set before first paint by the inline script in <head>.
   // Only an explicit toggle click persists the choice: first-visit themes
@@ -23,19 +42,7 @@
     var toggle = document.getElementById("themeToggle");
     if (toggle) toggle.textContent = theme === "dark" ? "☀" : "☾";
 
-    if (persist) {
-      try {
-        localStorage.setItem("portfolio-theme", theme);
-      } catch (e) {}
-    }
-  }
-
-  function hasStoredTheme() {
-    try {
-      return localStorage.getItem("portfolio-theme") !== null;
-    } catch (e) {
-      return false;
-    }
+    if (persist) storeSet("portfolio-theme", theme);
   }
 
   function initTheme() {
@@ -53,7 +60,7 @@
     var mq = window.matchMedia("(prefers-color-scheme: dark)");
     if (mq.addEventListener) {
       mq.addEventListener("change", function (e) {
-        if (!hasStoredTheme()) applyTheme(e.matches ? "dark" : "light", false);
+        if (storeGet("portfolio-theme") === null) applyTheme(e.matches ? "dark" : "light", false);
       });
     }
   }
@@ -84,16 +91,11 @@
         ? "José Roberto García Correa — Ingeniero de Software"
         : "José Roberto García Correa — Software Engineer";
 
-    try {
-      localStorage.setItem("portfolio-lang", lang);
-    } catch (e) {}
+    storeSet("portfolio-lang", lang);
   }
 
   function initLanguage() {
-    var savedLang = null;
-    try {
-      savedLang = localStorage.getItem("portfolio-lang");
-    } catch (e) {}
+    var savedLang = storeGet("portfolio-lang");
 
     if (savedLang === "en" || savedLang === "es") {
       setLanguage(savedLang);
@@ -115,7 +117,7 @@
   function initCounters() {
     var els = document.querySelectorAll("[data-count]");
     if (!els.length) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (prefersReducedMotion()) return;
 
     var io = new IntersectionObserver(
       function (entries) {
@@ -152,7 +154,7 @@
     var els = document.querySelectorAll("[data-reveal]");
     if (!els.length) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
       els.forEach(function (el) {
         el.classList.add("is-visible");
       });
@@ -194,34 +196,34 @@
       menu.classList.toggle("active");
     });
 
-    menu.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", closeMenu);
-    });
-
-    // Close when clicking anywhere outside the menu (incl. logo / "top" links).
+    // One delegated listener: close on any menu link click, or on any
+    // click outside the menu (incl. logo / "top" links).
     document.addEventListener("click", function (e) {
-      if (menu.classList.contains("active") && !menu.contains(e.target)) {
+      if (!menu.classList.contains("active")) return;
+      if (!menu.contains(e.target) || e.target.closest("a")) {
         closeMenu();
       }
     });
   }
 
-  // --- Smooth Scroll ---
+  // --- Smooth Scroll (one delegated listener for every #anchor link) ---
   function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-      anchor.addEventListener("click", function (e) {
-        var targetId = this.getAttribute("href");
-        if (targetId === "#") return;
-        var target = document.querySelector(targetId);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
+    document.addEventListener("click", function (e) {
+      var anchor = e.target.closest('a[href^="#"]');
+      if (!anchor) return;
+      var targetId = anchor.getAttribute("href");
+      if (targetId === "#") return;
+      var target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     });
   }
 
   // --- Active Nav Highlight ---
+  // header#hero is observed too: entering it has no matching nav link,
+  // which correctly clears the highlight at the top of the page.
   function initActiveNav() {
     var sections = document.querySelectorAll("section[id], header[id]");
     var navLinks = document.querySelectorAll('.nav__links a[href^="#"]');
