@@ -171,12 +171,6 @@ html.reveal-ready [data-reveal].is-visible {
     transition: color 0.2s;
 }
 
-.nav__links .lnk b {
-    color: var(--ink-3);
-    font-weight: 400;
-    margin-right: 3px;
-}
-
 .nav__links .lnk:hover,
 .nav__links .lnk.active {
     color: var(--blue);
