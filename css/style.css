@@ -277,17 +277,64 @@ button {
     align-items: end;
 }
 
+.hero__head {
+    display: flex;
+    align-items: center;
+    gap: clamp(24px, 3.2vw, 44px);
+}
+
+.hero__photo {
+    flex-shrink: 0;
+    position: relative;
+    width: clamp(92px, 10vw, 140px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    outline: 1px solid var(--rule);
+    outline-offset: 6px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    animation: photoIn 0.9s var(--ease) 0.05s forwards;
+}
+
+.hero__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* the brand's blue period, resting on the ring */
+.hero__photo::after {
+    content: "";
+    position: absolute;
+    right: 3%;
+    bottom: 3%;
+    width: 15%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 3px solid var(--paper);
+    transition: background 0.4s, border-color 0.4s;
+}
+
+@keyframes photoIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: none; }
+}
+
 .hero__name {
     font-family: var(--font-display);
-    font-size: clamp(48px, 8vw, 100px);
+    font-size: clamp(40px, 6vw, 72px);
     font-weight: 700;
-    line-height: 0.98;
-    letter-spacing: -0.035em;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
 }
 
 .hero__name .line {
     display: block;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .hero__name .line span {
@@ -500,35 +547,6 @@ button {
     flex-wrap: wrap;
     gap: 7px;
     margin-top: 12px;
-}
-
-.cell--photo {
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.cell--photo img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.cell--photo .cell__tag {
-    position: absolute;
-    left: 12px;
-    bottom: 12px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--ink);
-    background: color-mix(in srgb, var(--paper) 82%, transparent);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--rule);
-    padding: 4px 11px;
-    border-radius: 99px;
 }
 
 .chip {
@@ -1155,6 +1173,14 @@ button {
     }
 }
 
+@media (max-width: 600px) {
+    .hero__head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 26px;
+    }
+}
+
 @media (max-width: 520px) {
     .wrap {
         padding: 0 22px;
@@ -1200,6 +1226,7 @@ button {
     }
 
     .hero__bio,
+    .hero__photo,
     .spec {
         opacity: 1;
     }
