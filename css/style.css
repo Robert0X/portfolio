@@ -419,9 +419,12 @@ html.reveal-ready [data-reveal].is-visible {
     color: var(--ink-2);
 }
 
-/* --- Sections --- */
+/* --- Sections ---
+   Longhand padding only: sections also carry .wrap, whose lateral
+   padding must survive (shorthand here would zero it out). */
 .sect {
-    padding: 96px 0 24px;
+    padding-top: 96px;
+    padding-bottom: 24px;
 }
 
 .sect__head {
@@ -1183,7 +1186,8 @@ html.reveal-ready [data-reveal].is-visible {
     }
 
     .sect {
-        padding: 64px 0 16px;
+        padding-top: 64px;
+        padding-bottom: 16px;
     }
 
     .sect__note {
