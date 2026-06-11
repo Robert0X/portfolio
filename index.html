@@ -64,7 +64,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Fonts load async (display=swap) so first paint is never blocked on them -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -80,7 +83,7 @@
                 <a class="lnk" href="#experience"><b>04</b><span data-en="Experience" data-es="Experiencia">Experience</span></a>
                 <a class="lnk" href="#contact"><b>05</b><span data-en="Contact" data-es="Contacto">Contact</span></a>
             </div>
-            <button class="nav__btn" id="langToggle" type="button" aria-label="Toggle language">ES</button>
+            <button class="nav__btn" id="langToggle" type="button">ES</button>
             <button class="nav__btn" id="themeToggle" type="button" aria-label="Toggle theme">☾</button>
             <a class="nav__cv" href="assets/CV_RobertGarcia.pdf" download>CV ↓</a>
             <button class="nav__mobile-toggle" id="mobileToggle" type="button" aria-label="Menu">
@@ -131,6 +134,7 @@
         </div>
     </header>
 
+    <main>
     <!-- Proof Strip -->
     <section class="proof">
         <div class="proof__item" data-reveal>
@@ -197,7 +201,7 @@
             </div>
             <div class="cell" data-reveal>
                 <span class="cell__k" data-en="Teaching" data-es="Enseñanza">Teaching</span>
-                <span class="cell__v" data-en="Coach" data-es="Coach">Coach<small data-en="CP instructor · OMICH coach" data-es="Instructor de PC · coach OMICH">CP instructor · OMICH coach</small></span>
+                <span class="cell__v">Coach<small data-en="CP instructor · OMICH coach" data-es="Instructor de PC · coach OMICH">CP instructor · OMICH coach</small></span>
             </div>
             <div class="cell" data-reveal>
                 <span class="cell__k" data-en="Location" data-es="Ubicación">Location</span>
@@ -387,6 +391,7 @@
             </form>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">

@@ -10,12 +10,12 @@
     --paper-2: #f4f2ed;
     --card: #ffffff;
     --ink: #131312;
-    --ink-2: #5c5a55;
-    --ink-3: #a3a09a;
+    --ink-2: #56544f;
+    --ink-3: #6f6c64;
     --rule: #e4e1da;
     --blue: #2b3cff;
     --blue-soft: rgba(43, 60, 255, 0.07);
-    --green: #1fa860;
+    --green: #157a47;
     --shadow: 0 1px 2px rgba(20, 18, 12, 0.05), 0 16px 40px rgba(20, 18, 12, 0.08);
 
     --font-display: 'Familjen Grotesk', sans-serif;
@@ -31,8 +31,8 @@
     --paper-2: #16161a;
     --card: #1a1a1f;
     --ink: #f0efeb;
-    --ink-2: #a5a3a0;
-    --ink-3: #5e5c5a;
+    --ink-2: #aaa8a4;
+    --ink-3: #8b8985;
     --rule: #26262b;
     --blue: #6573ff;
     --blue-soft: rgba(101, 115, 255, 0.09);
@@ -206,6 +206,13 @@ button {
 .nav__cv:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 18px color-mix(in srgb, var(--blue) 35%, transparent);
+}
+
+/* dark blue is light enough to need dark text for AA contrast */
+[data-theme="dark"] .nav__cv,
+[data-theme="dark"] .form-button {
+    color: #0e0e12;
+    font-weight: 600;
 }
 
 .nav__mobile-toggle {
