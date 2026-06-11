@@ -59,15 +59,16 @@
     }
     </script>
 
-    <!-- Theme anti-flash: set data-theme before first paint -->
-    <script>(function(){try{var t=localStorage.getItem('portfolio-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <!-- Theme anti-flash: set data-theme and browser-chrome color before first paint.
+         The two hex values mirror the --paper tokens in css/style.css. -->
+    <script>(function(){try{var t=localStorage.getItem('portfolio-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#101013':'#fbfaf7');}catch(e){}})();</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Fonts load async (display=swap) so first paint is never blocked on them -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -160,7 +161,7 @@
     <!-- About -->
     <section class="wrap sect" id="about">
         <div class="sect__head" data-reveal>
-            <span class="sect__num">01 / about</span>
+            <span class="sect__num" data-en="01 / about" data-es="01 / sobre mí">01 / about</span>
             <h2 class="sect__title" data-en="About" data-es="Sobre mí">About</h2>
         </div>
         <div class="about__text" data-reveal>
@@ -215,7 +216,7 @@
     <!-- Projects -->
     <section class="wrap sect" id="projects">
         <div class="sect__head" data-reveal>
-            <span class="sect__num">02 / work</span>
+            <span class="sect__num" data-en="02 / work" data-es="02 / proyectos">02 / work</span>
             <h2 class="sect__title" data-en="Selected projects" data-es="Proyectos seleccionados">Selected projects</h2>
             <span class="sect__note" data-en="public code — the repos are the proof" data-es="código público — los repos son la prueba">public code — the repos are the proof</span>
         </div>
@@ -275,7 +276,7 @@
     <!-- Competitive Programming -->
     <section class="wrap sect" id="competitive">
         <div class="sect__head" data-reveal>
-            <span class="sect__num">03 / competitive</span>
+            <span class="sect__num" data-en="03 / competitive" data-es="03 / competitiva">03 / competitive</span>
             <h2 class="sect__title" data-en="Competitive record" data-es="Historial competitivo">Competitive record</h2>
         </div>
         <p class="cp__intro" data-reveal data-en="Competitive programming has been central to my journey. I started competing in high school, founded a club to share what I learned, and have been pushing my limits ever since." data-es="La programación competitiva ha sido central en mi trayectoria. Comencé a competir en bachillerato, fundé un club para compartir lo que aprendí, y desde entonces no he dejado de superar mis límites.">Competitive programming has been central to my journey. I started competing in high school, founded a club to share what I learned, and have been pushing my limits ever since.</p>
@@ -319,7 +320,7 @@
     <!-- Experience -->
     <section class="wrap sect" id="experience">
         <div class="sect__head" data-reveal>
-            <span class="sect__num">04 / experience</span>
+            <span class="sect__num" data-en="04 / experience" data-es="04 / experiencia">04 / experience</span>
             <h2 class="sect__title" data-en="Experience" data-es="Experiencia">Experience</h2>
         </div>
         <div class="exp">
@@ -353,7 +354,7 @@
     <!-- Contact -->
     <section class="wrap sect" id="contact">
         <div class="sect__head" data-reveal>
-            <span class="sect__num">05 / contact</span>
+            <span class="sect__num" data-en="05 / contact" data-es="05 / contacto">05 / contact</span>
             <h2 class="sect__title" data-en="Contact" data-es="Contacto">Contact</h2>
         </div>
         <div class="contact__grid">
@@ -376,7 +377,7 @@
             </div>
             <form class="contact__form" id="contactForm" action="https://formsubmit.co/robertcgr.0x@gmail.com" method="POST" data-reveal>
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="#">
+                <input type="hidden" name="_next" value="https://robert0x.github.io/portfolio/#contact">
                 <div class="form-group">
                     <label for="name" class="form-label" data-en="Name" data-es="Nombre">Name</label>
                     <input type="text" id="name" name="name" class="form-input" required>

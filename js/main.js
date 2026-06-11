@@ -9,31 +9,53 @@
 
   // --- Theme Manager ---
   // data-theme is set before first paint by the inline script in <head>.
-  var THEME_COLORS = { light: "#fbfaf7", dark: "#101013" };
-
-  function applyTheme(theme) {
+  // Only an explicit toggle click persists the choice: first-visit themes
+  // derived from the OS must keep following the OS.
+  function applyTheme(theme, persist) {
     document.documentElement.dataset.theme = theme;
 
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", THEME_COLORS[theme] || THEME_COLORS.light);
+    if (meta) {
+      var paper = getComputedStyle(document.documentElement).getPropertyValue("--paper").trim();
+      if (paper) meta.setAttribute("content", paper);
+    }
 
     var toggle = document.getElementById("themeToggle");
     if (toggle) toggle.textContent = theme === "dark" ? "☀" : "☾";
 
+    if (persist) {
+      try {
+        localStorage.setItem("portfolio-theme", theme);
+      } catch (e) {}
+    }
+  }
+
+  function hasStoredTheme() {
     try {
-      localStorage.setItem("portfolio-theme", theme);
-    } catch (e) {}
+      return localStorage.getItem("portfolio-theme") !== null;
+    } catch (e) {
+      return false;
+    }
   }
 
   function initTheme() {
-    applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+    applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light", false);
 
     var toggle = document.getElementById("themeToggle");
-    if (!toggle) return;
-    toggle.addEventListener("click", function () {
-      var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-      applyTheme(next);
-    });
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        applyTheme(next, true);
+      });
+    }
+
+    // Follow OS theme changes while the user has not made an explicit choice.
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) {
+      mq.addEventListener("change", function (e) {
+        if (!hasStoredTheme()) applyTheme(e.matches ? "dark" : "light", false);
+      });
+    }
   }
 
   // --- Language Toggle ---
@@ -124,6 +146,8 @@
   }
 
   // --- Scroll Reveal v2 ---
+  // The CSS only hides [data-reveal] elements under html.reveal-ready, so
+  // content stays visible when JS is disabled or fails to load.
   function initReveal() {
     var els = document.querySelectorAll("[data-reveal]");
     if (!els.length) return;
@@ -134,6 +158,8 @@
       });
       return;
     }
+
+    document.documentElement.classList.add("reveal-ready");
 
     var io = new IntersectionObserver(
       function (entries) {
@@ -157,16 +183,26 @@
     var menu = document.getElementById("mobileMenu");
     if (!toggle || !menu) return;
 
-    toggle.addEventListener("click", function () {
+    function closeMenu() {
+      toggle.classList.remove("active");
+      menu.classList.remove("active");
+    }
+
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
       toggle.classList.toggle("active");
       menu.classList.toggle("active");
     });
 
     menu.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        toggle.classList.remove("active");
-        menu.classList.remove("active");
-      });
+      link.addEventListener("click", closeMenu);
+    });
+
+    // Close when clicking anywhere outside the menu (incl. logo / "top" links).
+    document.addEventListener("click", function (e) {
+      if (menu.classList.contains("active") && !menu.contains(e.target)) {
+        closeMenu();
+      }
     });
   }
 
