@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta A — TTY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Martian+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0b0f0d;
+    --bg-raised: #101613;
+    --fg: #c2cfc6;
+    --fg-dim: #6e7f74;
+    --fg-faint: #45524a;
+    --green: #46d97a;
+    --amber: #e8c264;
+    --cyan: #5cc8d4;
+    --red: #ef6363;
+    --border: #1d2620;
+    --mono: 'IBM Plex Mono', monospace;
+    --display: 'Martian Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.75;
+    padding-bottom: 44px;
+}
+/* CRT atmosphere: faint scanlines + vignette */
+body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 3px),
+        radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.5));
+    pointer-events: none;
+    z-index: 50;
+}
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 28px; }
+
+/* tmux-style status bar (nav) */
+.tmux {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--bg-raised);
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    display: flex; align-items: center;
+    height: 44px; z-index: 100;
+    padding: 0 16px; gap: 4px;
+}
+.tmux__session { color: var(--green); font-weight: 600; margin-right: 12px; }
+.tmux a { color: var(--fg-dim); text-decoration: none; padding: 4px 10px; }
+.tmux a.active { background: var(--green); color: var(--bg); font-weight: 600; }
+.tmux a:hover:not(.active) { color: var(--fg); }
+.tmux__right { margin-left: auto; color: var(--fg-faint); display: flex; gap: 16px; }
+.tmux__right .clock { color: var(--amber); }
+
+/* fastfetch hero */
+.hero { padding: 72px 0 48px; }
+.hero__cmd { color: var(--fg-dim); margin-bottom: 28px; }
+.hero__cmd .ps1 { color: var(--green); font-weight: 600; }
+.hero__cmd .cmd { color: var(--fg); }
+.fetch { display: grid; grid-template-columns: 300px 1fr; gap: 48px; align-items: center; }
+.fetch__logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 120px;
+    line-height: 0.9;
+    color: var(--green);
+    text-shadow: 0 0 24px rgba(70,217,122,0.35);
+}
+.fetch__logo span { color: var(--amber); }
+.fetch__info { font-size: 14px; }
+.fetch__name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.25;
+    color: #e8f0ea;
+    margin-bottom: 6px;
+}
+.fetch__sep { color: var(--fg-faint); margin-bottom: 18px; }
+.fetch dl { display: grid; grid-template-columns: 130px 1fr; row-gap: 3px; }
+.fetch dt { color: var(--green); font-weight: 600; }
+.fetch dt::after { content: " ::"; color: var(--fg-faint); }
+.fetch dd { color: var(--fg); }
+.fetch dd .hl { color: var(--cyan); }
+.fetch__colors { display: flex; gap: 0; margin-top: 20px; }
+.fetch__colors i { width: 28px; height: 14px; display: block; }
+.cursor {
+    display: inline-block; width: 9px; height: 19px;
+    background: var(--green); vertical-align: -3px;
+    animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* prompt section headers */
+.sect { padding: 44px 0 8px; }
+.sect__prompt { margin-bottom: 26px; }
+.sect__prompt .ps1 { color: var(--green); font-weight: 600; }
+.sect__prompt .cmd { color: var(--fg); }
+.sect__prompt .comment { color: var(--fg-faint); }
+
+/* project = file listing entries */
+.proj {
+    border: 1px solid var(--border);
+    background: var(--bg-raised);
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+}
+.proj::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--green); opacity: 0.7;
+}
+.proj__head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; }
+.proj__perm { color: var(--fg-faint); font-size: 12.5px; }
+.proj__name { font-family: var(--display); font-weight: 700; font-size: 17px; color: #e8f0ea; }
+.proj__name a { color: inherit; text-decoration: none; border-bottom: 1px dashed var(--fg-faint); }
+.proj__name a:hover { color: var(--green); border-color: var(--green); }
+.proj__desc { color: var(--fg-dim); font-size: 14px; max-width: 70ch; }
+.proj__meta { display: flex; gap: 18px; margin-top: 14px; font-size: 12.5px; }
+.proj__meta .lang { color: var(--amber); }
+.proj__meta .link { color: var(--cyan); text-decoration: none; }
+.proj__meta .link:hover { text-decoration: underline; }
+
+/* achievements = systemctl services */
+.svc { border: 1px solid var(--border); background: var(--bg-raised); }
+.svc__row {
+    display: grid; grid-template-columns: 18px 1fr auto;
+    gap: 14px; align-items: baseline;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+.svc__row:last-child { border-bottom: none; }
+.svc__dot { color: var(--green); }
+.svc__name { color: #e8f0ea; font-weight: 500; }
+.svc__name small { display: block; color: var(--fg-dim); font-weight: 400; font-size: 13px; }
+.svc__state { color: var(--green); font-size: 12.5px; }
+footer { padding: 56px 0 32px; color: var(--fg-faint); font-size: 12.5px; }
+@media (max-width: 760px) {
+    .fetch { grid-template-columns: 1fr; gap: 24px; }
+    .fetch__logo { font-size: 80px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="tmux">
+    <span class="tmux__session">[robert0x]</span>
+    <a href="#" class="active">0:about</a>
+    <a href="#">1:projects</a>
+    <a href="#">2:cp</a>
+    <a href="#">3:experience</a>
+    <a href="#">4:contact</a>
+    <div class="tmux__right">
+        <span>EN│ES</span><span>☀/☾</span><span class="clock">21:07</span>
+    </div>
+</nav>
+
+<div class="wrap">
+    <header class="hero">
+        <p class="hero__cmd"><span class="ps1">robert@morelia:~$</span> <span class="cmd">fastfetch</span></p>
+        <div class="fetch">
+            <div class="fetch__logo">R<span>.</span></div>
+            <div class="fetch__info">
+                <p class="fetch__name">José Roberto García Correa</p>
+                <p class="fetch__sep">────────────────────────────────</p>
+                <dl>
+                    <dt>role</dt><dd>Software Engineer · Competitive Programmer<span class="cursor"></span></dd>
+                    <dt>os</dt><dd>Linux <span class="hl">(btw)</span></dd>
+                    <dt>uni</dt><dd>TecNM — Computer Systems Eng. · 6th sem</dd>
+                    <dt>icpc</dt><dd><span class="hl">Mexico Finals 2025</span> — qualified</dd>
+                    <dt>founder</dt><dd>GAPC C120 — CP club</dd>
+                    <dt>langs</dt><dd>C++ · TypeScript · Python · PHP · SQL</dd>
+                    <dt>handle</dt><dd>Robert.x @ codeforces</dd>
+                </dl>
+                <div class="fetch__colors">
+                    <i style="background:#ef6363"></i><i style="background:#e8c264"></i><i style="background:#46d97a"></i><i style="background:#5cc8d4"></i><i style="background:#7a8ff0"></i><i style="background:#c2cfc6"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="sect">
+        <p class="sect__prompt"><span class="ps1">robert@morelia:~$</span> <span class="cmd">ls -la ~/projects</span> <span class="comment"># things I actually shipped</span></p>
+
+        <article class="proj">
+            <div class="proj__head">
+                <span class="proj__perm">drwxr-xr-x</span>
+                <h3 class="proj__name"><a href="#">tgs-itm/</a></h3>
+                <span class="proj__perm">2026</span>
+            </div>
+            <p class="proj__desc">Sports activities management system — Next.js 16, TypeScript end-to-end, Prisma + PostgreSQL on Neon, NextAuth v5. Built sprint by sprint with Husky-enforced conventions.</p>
+            <div class="proj__meta">
+                <span class="lang">● TypeScript</span>
+                <a class="link" href="#">view code ↗</a>
+            </div>
+        </article>
+
+        <article class="proj">
+            <div class="proj__head">
+                <span class="proj__perm">drwxr-xr-x</span>
+                <h3 class="proj__name"><a href="#">notebook-cp/</a></h3>
+                <span class="proj__perm">2026</span>
+            </div>
+            <p class="proj__desc">ICPC team notebook generator: drop in .cpp algorithms, run one command, get a print-ready PDF with ToC and syntax highlighting.</p>
+            <div class="proj__meta">
+                <span class="lang">● Python + LaTeX</span>
+                <a class="link" href="#">view code ↗</a>
+            </div>
+        </article>
+    </section>
+
+    <section class="sect">
+        <p class="sect__prompt"><span class="ps1">robert@morelia:~$</span> <span class="cmd">systemctl status achievements.service</span></p>
+        <div class="svc">
+            <div class="svc__row">
+                <span class="svc__dot">●</span>
+                <span class="svc__name">icpc-mexico-finals-2025 <small>Qualified — representing TecNM at the national finals</small></span>
+                <span class="svc__state">active (running)</span>
+            </div>
+            <div class="svc__row">
+                <span class="svc__dot">●</span>
+                <span class="svc__name">coding-cup-2022 <small>3rd place — high school & university divisions</small></span>
+                <span class="svc__state">exited (0)</span>
+            </div>
+            <div class="svc__row">
+                <span class="svc__dot">●</span>
+                <span class="svc__name">gapc-c120.founder <small>Founded & coached the CP club at CETIs 120</small></span>
+                <span class="svc__state">active (running)</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>robert@morelia:~$ echo "© 2026 — built with HTML/CSS/JS, no frameworks were harmed" <span class="cursor"></span></p>
+    </footer>
+</div>
+</body>
+</html>

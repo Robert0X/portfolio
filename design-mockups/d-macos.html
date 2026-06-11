@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta D — macOS-inspired</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #f7f7f8;
+    --bg-card: #ffffff;
+    --ink: #1a1a1c;
+    --ink-2: #55555c;
+    --ink-3: #93939c;
+    --line: rgba(0,0,0,0.07);
+    --accent: #2563eb;
+    --glass: rgba(247,247,248,0.72);
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.06);
+    --shadow-hover: 0 2px 4px rgba(0,0,0,0.04), 0 24px 56px rgba(0,0,0,0.12);
+}
+[data-theme="dark"] {
+    --bg: #0b0b0d;
+    --bg-card: #1a1a1e;
+    --ink: #f5f5f7;
+    --ink-2: #a9a9b2;
+    --ink-3: #66666e;
+    --line: rgba(255,255,255,0.09);
+    --accent: #4f83f7;
+    --glass: rgba(11,11,13,0.72);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.4);
+    --shadow-hover: 0 2px 4px rgba(0,0,0,0.3), 0 24px 56px rgba(0,0,0,0.55);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Hanken Grotesk', -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    transition: background 0.45s ease, color 0.45s ease;
+    -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 32px; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* glass nav */
+.nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--glass);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.45s ease;
+}
+.nav__in { max-width: 1060px; margin: 0 auto; padding: 0 32px; height: 56px; display: flex; align-items: center; gap: 30px; }
+.nav__logo { font-weight: 800; font-size: 18px; letter-spacing: -0.02em; margin-right: auto; }
+.nav__logo span { color: var(--accent); }
+.nav a { color: var(--ink-2); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+.nav a:hover { color: var(--ink); }
+.nav__ctl { display: flex; gap: 8px; }
+.nav__btn {
+    font-size: 12.5px; font-weight: 600; color: var(--ink-2);
+    border: 1px solid var(--line); background: transparent;
+    padding: 6px 13px; border-radius: 99px; cursor: pointer;
+    transition: all 0.25s;
+}
+.nav__btn:hover { color: var(--ink); border-color: var(--ink-3); }
+
+/* hero — centered, Apple keynote rhythm */
+.hero { padding: 170px 0 90px; text-align: center; }
+.hero__eyebrow {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--accent); margin-bottom: 22px;
+    opacity: 0; animation: rise 0.8s cubic-bezier(0.16,1,0.3,1) 0.05s forwards;
+}
+.hero__title {
+    font-size: clamp(46px, 7.2vw, 84px);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+    margin: 0 auto 26px;
+    max-width: 16ch;
+    opacity: 0; animation: rise 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s forwards;
+}
+.hero__title em {
+    font-style: normal;
+    background: linear-gradient(100deg, var(--accent), #7c3aed 90%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.hero__sub {
+    font-size: 20px; color: var(--ink-2); max-width: 52ch; margin: 0 auto 38px;
+    opacity: 0; animation: rise 0.9s cubic-bezier(0.16,1,0.3,1) 0.32s forwards;
+}
+.hero__cta {
+    display: inline-flex; gap: 14px;
+    opacity: 0; animation: rise 0.9s cubic-bezier(0.16,1,0.3,1) 0.46s forwards;
+}
+.btn {
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    padding: 12px 26px; border-radius: 99px;
+    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
+}
+.btn--fill { background: var(--accent); color: #fff; }
+.btn--fill:hover { transform: scale(1.04); box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 40%, transparent); }
+.btn--ghost { color: var(--accent); }
+.btn--ghost:hover { transform: scale(1.04); }
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
+/* bento overview — "everything at a glance" */
+.bento {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 150px;
+    gap: 16px;
+    padding-bottom: 90px;
+}
+.cell {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 26px 28px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s, background 0.45s;
+    position: relative; overflow: hidden;
+}
+.cell:hover { transform: translateY(-5px) scale(1.012); box-shadow: var(--shadow-hover); }
+.cell--2w { grid-column: span 2; }
+.cell--2h { grid-row: span 2; }
+.cell__k { font-size: 13px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.01em; }
+.cell__v { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
+.cell__v small { display: block; font-size: 15px; font-weight: 500; color: var(--ink-2); letter-spacing: 0; }
+.cell--feature .cell__v { font-size: 24px; }
+.cell--accent { background: linear-gradient(135deg, var(--accent), #7c3aed); border: none; }
+.cell--accent .cell__k { color: rgba(255,255,255,0.7); }
+.cell--accent .cell__v { color: #fff; }
+.cell--accent .cell__v small { color: rgba(255,255,255,0.78); }
+.cell__chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+.chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+    color: var(--ink-2); border: 1px solid var(--line);
+    padding: 4px 10px; border-radius: 99px;
+}
+.cell__glow {
+    position: absolute; inset: auto -30% -60% auto; width: 75%; aspect-ratio: 1;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
+    pointer-events: none;
+}
+
+/* projects — product cards */
+.sect { padding: 30px 0 90px; }
+.sect__head { text-align: center; margin-bottom: 50px; }
+.sect__title { font-size: 44px; font-weight: 800; letter-spacing: -0.04em; }
+.sect__sub { font-size: 18px; color: var(--ink-2); margin-top: 8px; }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.card {
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: 28px; box-shadow: var(--shadow);
+    padding: 38px 38px 32px;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s, background 0.45s;
+}
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+.card__meta { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-3); margin-bottom: 14px; }
+.card__name { font-size: 27px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 10px; }
+.card__desc { font-size: 15.5px; color: var(--ink-2); margin-bottom: 24px; }
+.card__link { font-size: 15px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.card__link:hover { text-decoration: underline; text-underline-offset: 4px; }
+footer { border-top: 1px solid var(--line); padding: 40px 0 60px; text-align: center; color: var(--ink-3); font-size: 14px; }
+@media (max-width: 860px) { .bento { grid-template-columns: 1fr 1fr; } .cards { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav__in">
+        <span class="nav__logo">Robert<span>.</span></span>
+        <a href="#">Overview</a>
+        <a href="#">Projects</a>
+        <a href="#">Competitive</a>
+        <a href="#">Experience</a>
+        <a href="#">Contact</a>
+        <div class="nav__ctl">
+            <button class="nav__btn">EN</button>
+            <button class="nav__btn" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">☾</button>
+        </div>
+    </div>
+</nav>
+
+<div class="wrap">
+    <header class="hero">
+        <p class="hero__eyebrow">José Roberto García Correa — Software Engineer</p>
+        <h1 class="hero__title">Code that competes.<br><em>Software that ships.</em></h1>
+        <p class="hero__sub">Competitive programmer at the ICPC Mexico Finals. Founder, coach, and full-stack engineer studying Computer Systems at TecNM.</p>
+        <div class="hero__cta">
+            <a href="#" class="btn btn--fill">View projects</a>
+            <a href="#" class="btn btn--ghost">Download CV →</a>
+        </div>
+    </header>
+
+    <section class="bento">
+        <div class="cell cell--2w cell--accent">
+            <span class="cell__k">Competitive Programming</span>
+            <span class="cell__v">ICPC Mexico Finals 2025<small>Qualified — representing TecNM</small></span>
+        </div>
+        <div class="cell">
+            <span class="cell__k">Coding Cup 2022</span>
+            <span class="cell__v">3rd<small>place overall</small></span>
+        </div>
+        <div class="cell">
+            <span class="cell__k">GAPC C120</span>
+            <span class="cell__v">Founder<small>CP club & coach</small></span>
+        </div>
+        <div class="cell cell--2w cell--feature">
+            <div class="cell__glow"></div>
+            <span class="cell__k">Stack</span>
+            <span class="cell__v">Full-stack, typed, tested</span>
+            <div class="cell__chips">
+                <span class="chip">C++</span><span class="chip">TypeScript</span><span class="chip">Next.js</span><span class="chip">Python</span><span class="chip">PHP</span><span class="chip">SQL</span><span class="chip">Linux</span>
+            </div>
+        </div>
+        <div class="cell">
+            <span class="cell__k">Teaching</span>
+            <span class="cell__v">Coach<small>OMICH · CP instructor</small></span>
+        </div>
+        <div class="cell">
+            <span class="cell__k">Languages</span>
+            <span class="cell__v">ES · EN<small>site included</small></span>
+        </div>
+    </section>
+
+    <section class="sect">
+        <div class="sect__head">
+            <h2 class="sect__title">Selected work.</h2>
+            <p class="sect__sub">Real systems, public code, engineering discipline.</p>
+        </div>
+        <div class="cards">
+            <article class="card">
+                <p class="card__meta">2026 · Next.js · TypeScript · Prisma · PostgreSQL</p>
+                <h3 class="card__name">TGS-ITM</h3>
+                <p class="card__desc">Sports activities management system for Club Deportivo Morelia — typed end-to-end, built sprint by sprint with enforced conventions.</p>
+                <a href="#" class="card__link">View code →</a>
+            </article>
+            <article class="card">
+                <p class="card__meta">2026 · Python · LaTeX · CLI</p>
+                <h3 class="card__name">NoteBook CP</h3>
+                <p class="card__desc">ICPC team notebook generator: algorithms in, print-ready PDF out — table of contents and syntax highlighting included.</p>
+                <a href="#" class="card__link">View code →</a>
+            </article>
+        </div>
+    </section>
+
+    <footer>© 2026 José Roberto García Correa — Morelia, MX</footer>
+</div>
+</body>
+</html>

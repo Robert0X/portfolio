@@ -1,267 +1,261 @@
 /* ============================================================
    Robert García Correa — Portfolio Scripts
-   Language toggle, scroll effects, mobile menu, typing animation
+   Theme manager, language toggle, counters, scroll reveal,
+   nav state, mobile menu, smooth scroll, active nav.
    ============================================================ */
 
 (function () {
   "use strict";
 
-  // --- Typing Animation ---
-  const typingStrings = {
-    en: [
-      "Computer Systems Engineering Student",
-      "Competitive Programmer",
-      "Full-Stack Developer",
-      "ICPC Mexico Finals 2025",
-      "Algorithm Enthusiast",
-    ],
-    es: [
-      "Estudiante de Ing. en Sistemas Computacionales",
-      "Programador Competitivo",
-      "Desarrollador Full-Stack",
-      "ICPC Mexico Finals 2025",
-      "Entusiasta de Algoritmos",
-    ],
-  };
-
-  let typingIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typingTimeout = null;
-
-  function typeEffect() {
-    const el = document.getElementById("typingText");
-    if (!el) return;
-
-    const strings = typingStrings[currentLang] || typingStrings.en;
-    const currentString = strings[typingIndex % strings.length];
-
-    if (!isDeleting) {
-      el.textContent = currentString.substring(0, charIndex + 1);
-      charIndex++;
-
-      if (charIndex === currentString.length) {
-        // Pause before deleting
-        typingTimeout = setTimeout(() => {
-          isDeleting = true;
-          typeEffect();
-        }, 2000);
-        return;
-      }
-      typingTimeout = setTimeout(typeEffect, 60);
-    } else {
-      el.textContent = currentString.substring(0, charIndex - 1);
-      charIndex--;
-
-      if (charIndex === 0) {
-        isDeleting = false;
-        typingIndex++;
-        typingTimeout = setTimeout(typeEffect, 400);
-        return;
-      }
-      typingTimeout = setTimeout(typeEffect, 30);
+  // --- Helpers ---
+  function storeGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return null;
     }
   }
 
-  function restartTyping() {
-    if (typingTimeout) clearTimeout(typingTimeout);
-    typingIndex = 0;
-    charIndex = 0;
-    isDeleting = false;
-    const el = document.getElementById("typingText");
-    if (el) el.textContent = "";
-    setTimeout(typeEffect, 600);
+  function storeSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {}
+  }
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  // --- Theme Manager ---
+  // data-theme is set before first paint by the inline script in <head>.
+  // Only an explicit toggle click persists the choice: first-visit themes
+  // derived from the OS must keep following the OS.
+  function applyTheme(theme, persist) {
+    document.documentElement.dataset.theme = theme;
+
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      var paper = getComputedStyle(document.documentElement).getPropertyValue("--paper").trim();
+      if (paper) meta.setAttribute("content", paper);
+    }
+
+    var toggle = document.getElementById("themeToggle");
+    if (toggle) toggle.textContent = theme === "dark" ? "☀" : "☾";
+
+    if (persist) storeSet("portfolio-theme", theme);
+  }
+
+  function initTheme() {
+    applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light", false);
+
+    var toggle = document.getElementById("themeToggle");
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        applyTheme(next, true);
+      });
+    }
+
+    // Follow OS theme changes while the user has not made an explicit choice.
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) {
+      mq.addEventListener("change", function (e) {
+        if (storeGet("portfolio-theme") === null) applyTheme(e.matches ? "dark" : "light", false);
+      });
+    }
   }
 
   // --- Language Toggle ---
-  let currentLang = "en";
+  var currentLang = "en";
 
   function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.setAttribute("data-lang", lang);
     document.documentElement.setAttribute("lang", lang === "es" ? "es" : "en");
 
-    const elements = document.querySelectorAll("[data-en][data-es]");
-    elements.forEach((el) => {
-      const text = el.getAttribute("data-" + lang);
-      if (text) {
-        if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
-          el.placeholder = text;
-        } else {
-          el.textContent = text;
-        }
+    document.querySelectorAll("[data-en][data-es]").forEach(function (el) {
+      var text = el.getAttribute("data-" + lang);
+      if (!text) return;
+      if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+        el.placeholder = text;
+      } else {
+        el.textContent = text;
       }
     });
 
-    const toggle = document.getElementById("langToggle");
-    if (toggle) {
-      const active = toggle.querySelector(".lang-toggle__active");
-      const inactive = toggle.querySelector(".lang-toggle__inactive");
-      if (lang === "en") {
-        active.textContent = "EN";
-        inactive.textContent = "ES";
-      } else {
-        active.textContent = "ES";
-        inactive.textContent = "EN";
-      }
-    }
+    var toggle = document.getElementById("langToggle");
+    if (toggle) toggle.textContent = lang === "en" ? "ES" : "EN";
 
     document.title =
       lang === "es"
         ? "José Roberto García Correa — Ingeniero de Software"
         : "José Roberto García Correa — Software Engineer";
 
-    try {
-      localStorage.setItem("portfolio-lang", lang);
-    } catch (e) {}
-
-    // Restart typing with new language
-    restartTyping();
+    storeSet("portfolio-lang", lang);
   }
 
   function initLanguage() {
-    let savedLang = null;
-    try {
-      savedLang = localStorage.getItem("portfolio-lang");
-    } catch (e) {}
+    var savedLang = storeGet("portfolio-lang");
 
-    if (savedLang && (savedLang === "en" || savedLang === "es")) {
+    if (savedLang === "en" || savedLang === "es") {
       setLanguage(savedLang);
     } else {
-      const browserLang = navigator.language || navigator.userLanguage;
-      if (browserLang && browserLang.startsWith("es")) {
-        setLanguage("es");
-      } else {
-        setLanguage("en");
-      }
+      var browserLang = navigator.language || "";
+      setLanguage(browserLang.indexOf("es") === 0 ? "es" : "en");
     }
 
-    const toggle = document.getElementById("langToggle");
+    var toggle = document.getElementById("langToggle");
     if (toggle) {
-      toggle.addEventListener("click", () => {
+      toggle.addEventListener("click", function () {
         setLanguage(currentLang === "en" ? "es" : "en");
       });
     }
   }
 
-  // --- Navigation Scroll Effect ---
-  function initNavScroll() {
-    const nav = document.getElementById("nav");
-    if (!nav) return;
+  // --- Count-up Counters ---
+  // Final values live in the HTML; animation is an enhancement only.
+  function initCounters() {
+    var els = document.querySelectorAll("[data-count]");
+    if (!els.length) return;
+    if (prefersReducedMotion()) return;
 
-    let ticking = false;
-    function updateNav() {
-      if (window.scrollY > 10) {
-        nav.classList.add("scrolled");
-      } else {
-        nav.classList.remove("scrolled");
-      }
-      ticking = false;
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          io.unobserve(entry.target);
+
+          var el = entry.target;
+          var end = parseInt(el.dataset.count, 10);
+          if (isNaN(end)) return;
+          var t0 = null;
+
+          function step(ts) {
+            if (!t0) t0 = ts;
+            var p = Math.min((ts - t0) / 900, 1);
+            el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+      },
+      { threshold: 0.4 },
+    );
+
+    els.forEach(function (el) {
+      io.observe(el);
+    });
+  }
+
+  // --- Scroll Reveal v2 ---
+  // The CSS only hides [data-reveal] elements under html.reveal-ready, so
+  // content stays visible when JS is disabled or fails to load.
+  function initReveal() {
+    var els = document.querySelectorAll("[data-reveal]");
+    if (!els.length) return;
+
+    if (prefersReducedMotion()) {
+      els.forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+      return;
     }
 
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (!ticking) {
-          requestAnimationFrame(updateNav);
-          ticking = true;
-        }
-      },
-      { passive: true },
-    );
-  }
+    document.documentElement.classList.add("reveal-ready");
 
-  // --- Mobile Menu ---
-  function initMobileMenu() {
-    const toggle = document.getElementById("mobileToggle");
-    const menu = document.getElementById("mobileMenu");
-    if (!toggle || !menu) return;
-
-    toggle.addEventListener("click", () => {
-      toggle.classList.toggle("active");
-      menu.classList.toggle("active");
-    });
-
-    menu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        toggle.classList.remove("active");
-        menu.classList.remove("active");
-      });
-    });
-  }
-
-  // --- Smooth Scroll ---
-  function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", function (e) {
-        const targetId = this.getAttribute("href");
-        if (targetId === "#") return;
-        const target = document.querySelector(targetId);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
-    });
-  }
-
-  // --- Scroll Reveal ---
-  function initScrollReveal() {
-    const revealElements = document.querySelectorAll(
-      ".section__title, .project-card, .achievement, .about__text, .about__details, .skills, .cp__text, .cp__profiles, .contact__info, .contact__form, .exp-card",
-    );
-
-    revealElements.forEach((el) => el.classList.add("reveal"));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
         });
       },
       { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
     );
 
-    revealElements.forEach((el) => observer.observe(el));
+    els.forEach(function (el) {
+      io.observe(el);
+    });
+  }
+
+  // --- Mobile Menu ---
+  function initMobileMenu() {
+    var toggle = document.getElementById("mobileToggle");
+    var menu = document.getElementById("mobileMenu");
+    if (!toggle || !menu) return;
+
+    function closeMenu() {
+      toggle.classList.remove("active");
+      menu.classList.remove("active");
+    }
+
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      toggle.classList.toggle("active");
+      menu.classList.toggle("active");
+    });
+
+    // One delegated listener: close on any menu link click, or on any
+    // click outside the menu (incl. logo / "top" links).
+    document.addEventListener("click", function (e) {
+      if (!menu.classList.contains("active")) return;
+      if (!menu.contains(e.target) || e.target.closest("a")) {
+        closeMenu();
+      }
+    });
+  }
+
+  // --- Smooth Scroll (one delegated listener for every #anchor link) ---
+  function initSmoothScroll() {
+    document.addEventListener("click", function (e) {
+      var anchor = e.target.closest('a[href^="#"]');
+      if (!anchor) return;
+      var targetId = anchor.getAttribute("href");
+      if (targetId === "#") return;
+      var target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
   }
 
   // --- Active Nav Highlight ---
+  // header#hero is observed too: entering it has no matching nav link,
+  // which correctly clears the highlight at the top of the page.
   function initActiveNav() {
-    const sections = document.querySelectorAll("section[id]");
-    const navLinks = document.querySelectorAll('.nav__links a[href^="#"]');
+    var sections = document.querySelectorAll("section[id], header[id]");
+    var navLinks = document.querySelectorAll('.nav__links a[href^="#"]');
+    if (!sections.length || !navLinks.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute("id");
-            navLinks.forEach((link) => {
-              link.style.color = "";
-              if (link.getAttribute("href") === "#" + id) {
-                link.style.color = "var(--color-text)";
-              }
-            });
-          }
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var id = entry.target.getAttribute("id");
+          navLinks.forEach(function (link) {
+            link.classList.toggle("active", link.getAttribute("href") === "#" + id);
+          });
         });
       },
       { threshold: 0.3, rootMargin: "-80px 0px -50% 0px" },
     );
 
-    sections.forEach((section) => observer.observe(section));
+    sections.forEach(function (section) {
+      observer.observe(section);
+    });
   }
 
   // --- Initialize ---
   function init() {
+    initTheme();
     initLanguage();
-    initNavScroll();
+    initCounters();
+    initReveal();
     initMobileMenu();
     initSmoothScroll();
-    initScrollReveal();
     initActiveNav();
-    // Typing starts via initLanguage -> setLanguage -> restartTyping
   }
 
   if (document.readyState === "loading") {

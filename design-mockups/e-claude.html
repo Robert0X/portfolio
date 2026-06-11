@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta E — Diseño libre de Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+    --paper: #fbfaf7;
+    --paper-2: #f3f1ec;
+    --ink: #131312;
+    --ink-2: #5c5a55;
+    --ink-3: #a3a09a;
+    --rule: #e4e1da;
+    --blue: #2b3cff;
+    --blue-soft: rgba(43,60,255,0.08);
+}
+[data-theme="dark"] {
+    --paper: #101013;
+    --paper-2: #17171b;
+    --ink: #f0efeb;
+    --ink-2: #a5a3a0;
+    --ink-3: #5e5c5a;
+    --rule: #26262b;
+    --blue: #6573ff;
+    --blue-soft: rgba(101,115,255,0.1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 16.5px;
+    line-height: 1.7;
+    transition: background 0.4s ease, color 0.4s ease;
+    -webkit-font-smoothing: antialiased;
+}
+.display { font-family: 'Familjen Grotesk', sans-serif; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 36px; }
+
+/* hairline nav with index numbers */
+.nav {
+    position: sticky; top: 0; z-index: 100;
+    background: color-mix(in srgb, var(--paper) 90%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.4s ease;
+}
+.nav__in { max-width: 1100px; margin: 0 auto; padding: 0 36px; height: 60px; display: flex; align-items: center; gap: 26px; }
+.nav__logo { font-family: 'Familjen Grotesk', sans-serif; font-weight: 700; font-size: 19px; margin-right: auto; }
+.nav__logo i { font-style: normal; color: var(--blue); }
+.nav a {
+    color: var(--ink-2); text-decoration: none; font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: color 0.2s;
+}
+.nav a b { color: var(--ink-3); font-weight: 400; margin-right: 4px; }
+.nav a:hover { color: var(--blue); }
+.nav__btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    border: 1px solid var(--rule); background: transparent; color: var(--ink-2);
+    padding: 6px 12px; border-radius: 3px; cursor: pointer; transition: all 0.2s;
+}
+.nav__btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* asymmetric hero: name + spec rail */
+.hero {
+    display: grid; grid-template-columns: 1fr 290px; gap: 80px;
+    padding: 110px 0 90px; align-items: end;
+}
+.hero__role {
+    font-family: 'JetBrains Mono', monospace; font-size: 13.5px;
+    color: var(--blue); margin-bottom: 28px;
+    opacity: 0; animation: fadeup 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s forwards;
+}
+.hero__name {
+    font-family: 'Familjen Grotesk', sans-serif;
+    font-size: clamp(52px, 8.5vw, 104px);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+}
+.hero__name .line { display: block; overflow: hidden; }
+.hero__name .line span { display: inline-block; transform: translateY(110%); animation: lift 0.85s cubic-bezier(0.16,1,0.3,1) forwards; }
+.hero__name .line:nth-child(1) span { animation-delay: 0.12s; }
+.hero__name .line:nth-child(2) span { animation-delay: 0.22s; }
+.hero__name .line em { font-style: normal; color: var(--blue); }
+.hero__bio {
+    margin-top: 34px; font-size: 19px; color: var(--ink-2); max-width: 48ch;
+    opacity: 0; animation: fadeup 0.8s cubic-bezier(0.16,1,0.3,1) 0.45s forwards;
+}
+.spec {
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    display: grid; gap: 17px;
+    opacity: 0; animation: fadeup 0.8s cubic-bezier(0.16,1,0.3,1) 0.55s forwards;
+}
+.spec dt { color: var(--ink-3); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
+.spec dd { color: var(--ink); margin-top: 2px; }
+.spec dd a { color: var(--blue); text-decoration: none; }
+.spec dd a:hover { text-decoration: underline; text-underline-offset: 3px; }
+@keyframes lift { to { transform: none; } }
+@keyframes fadeup { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+/* proof strip */
+.proof {
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.proof__item { padding: 30px 28px; border-right: 1px solid var(--rule); transition: background 0.3s; }
+.proof__item:last-child { border-right: none; }
+.proof__item:hover { background: var(--blue-soft); }
+.proof__n { font-family: 'Familjen Grotesk', sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.03em; }
+.proof__n i { font-style: normal; color: var(--blue); }
+.proof__l { font-size: 13.5px; color: var(--ink-2); margin-top: 2px; }
+
+/* projects as ruled index */
+.sect { padding: 96px 0 40px; }
+.sect__row { display: grid; grid-template-columns: 290px 1fr; gap: 80px; align-items: start; }
+.sect__label { position: sticky; top: 100px; }
+.sect__num {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--blue);
+    display: block; margin-bottom: 10px;
+}
+.sect__title { font-family: 'Familjen Grotesk', sans-serif; font-size: 40px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
+.sect__note { font-size: 14.5px; color: var(--ink-2); margin-top: 14px; max-width: 26ch; }
+.index { border-top: 1px solid var(--rule); }
+.row {
+    display: grid; grid-template-columns: 1fr auto auto;
+    gap: 8px 36px; align-items: baseline;
+    padding: 28px 8px;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none; color: inherit;
+    transition: padding 0.3s cubic-bezier(0.16,1,0.3,1), background 0.3s;
+    position: relative;
+}
+.row:hover { padding-left: 24px; background: var(--blue-soft); }
+.row::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: -1px; width: 2px;
+    background: var(--blue); transform: scaleY(0); transition: transform 0.3s;
+}
+.row:hover::before { transform: scaleY(1); }
+.row__name { font-family: 'Familjen Grotesk', sans-serif; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+.row__name small { font-family: 'Instrument Sans', sans-serif; display: block; font-size: 15px; font-weight: 400; color: var(--ink-2); margin-top: 4px; max-width: 52ch; }
+.row__stack { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--ink-3); }
+.row__go { font-size: 22px; color: var(--blue); transition: transform 0.3s; }
+.row:hover .row__go { transform: translateX(6px); }
+footer { padding: 80px 0 56px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace; font-size: 12.5px; display: flex; justify-content: space-between; }
+@media (max-width: 860px) {
+    .hero, .sect__row { grid-template-columns: 1fr; gap: 40px; }
+    .spec { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 24px; }
+    .proof { grid-template-columns: 1fr 1fr; }
+    .proof__item:nth-child(2) { border-right: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } .hero__name .line span { transform: none; } .hero__role, .hero__bio, .spec { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav__in">
+        <span class="nav__logo">Robert<i>.</i></span>
+        <a href="#"><b>01</b>About</a>
+        <a href="#"><b>02</b>Work</a>
+        <a href="#"><b>03</b>CP</a>
+        <a href="#"><b>04</b>Experience</a>
+        <a href="#"><b>05</b>Contact</a>
+        <button class="nav__btn">ES</button>
+        <button class="nav__btn" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">☾ / ☀</button>
+    </div>
+</nav>
+
+<div class="wrap">
+    <header class="hero">
+        <div>
+            <p class="hero__role">software engineer · competitive programmer — Morelia, MX</p>
+            <h1 class="hero__name">
+                <span class="line"><span>José Roberto</span></span>
+                <span class="line"><span>García Correa<em>.</em></span></span>
+            </h1>
+            <p class="hero__bio">I build full-stack systems with the rigor of a competitive programmer — and train the next generation of them.</p>
+        </div>
+        <dl class="spec">
+            <div><dt>Currently</dt><dd>Computer Systems Eng. @ TecNM — 6th sem</dd></div>
+            <div><dt>Peak</dt><dd>ICPC Mexico Finals 2025</dd></div>
+            <div><dt>Handle</dt><dd><a href="#">Robert.x ↗ codeforces</a></dd></div>
+            <div><dt>Open to</dt><dd>Internships · SWE roles</dd></div>
+        </dl>
+    </header>
+</div>
+
+<section class="proof">
+    <div class="proof__item"><div class="proof__n">ICPC <i>’25</i></div><div class="proof__l">Mexico Finals — qualified</div></div>
+    <div class="proof__item"><div class="proof__n">3<i>rd</i></div><div class="proof__l">Coding Cup 2022</div></div>
+    <div class="proof__item"><div class="proof__n">1 <i>club</i></div><div class="proof__l">founded — GAPC C120</div></div>
+    <div class="proof__item"><div class="proof__n">2 <i>langs</i></div><div class="proof__l">this site runs in EN/ES</div></div>
+</section>
+
+<div class="wrap">
+    <section class="sect">
+        <div class="sect__row">
+            <div class="sect__label">
+                <span class="sect__num">02 / work</span>
+                <h2 class="sect__title">Selected projects</h2>
+                <p class="sect__note">Public code, real users, engineering discipline. Click through — the repos are the proof.</p>
+            </div>
+            <div class="index">
+                <a class="row" href="#">
+                    <div class="row__name">TGS-ITM<small>Sports club management — typed end-to-end, sprint-driven, Prisma + PostgreSQL on Neon.</small></div>
+                    <span class="row__stack">Next.js · TS · 2026</span>
+                    <span class="row__go">→</span>
+                </a>
+                <a class="row" href="#">
+                    <div class="row__name">NoteBook CP<small>ICPC notebook generator — .cpp in, print-ready PDF out, ToC and highlighting included.</small></div>
+                    <span class="row__stack">Python · LaTeX · 2026</span>
+                    <span class="row__go">→</span>
+                </a>
+                <a class="row" href="#">
+                    <div class="row__name">StudyVault<small>Study platform with flashcards and a CP training module — hand-rolled PHP MVC, PDO, MySQL.</small></div>
+                    <span class="row__stack">PHP · MySQL · 2026</span>
+                    <span class="row__go">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <span>© 2026 José Roberto García Correa</span>
+        <span>built by hand — no frameworks</span>
+    </footer>
+</div>
+</body>
+</html>

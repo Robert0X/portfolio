@@ -9,17 +9,40 @@
     <link rel="icon" type="image/svg+xml" href="/portfolio/assets/img/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Honor the theme chosen on the main site (localStorage), else follow the OS -->
+    <script>(function(){try{var t=localStorage.getItem('portfolio-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <style>
+        /* Token values mirror css/style.css (this page is standalone by design) */
+        :root {
+            --paper: #fbfaf7;
+            --ink: #131312;
+            --ink-2: #5c5a55;
+            --blue: #2b3cff;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --paper: #101013;
+                --ink: #f0efeb;
+                --ink-2: #a5a3a0;
+                --blue: #6573ff;
+            }
+        }
+        :root[data-theme="dark"] {
+            --paper: #101013;
+            --ink: #f0efeb;
+            --ink-2: #a5a3a0;
+            --blue: #6573ff;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #fafaf9;
-            color: #1c1917;
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Familjen Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
             text-align: center;
             padding: 2rem;
         }
@@ -27,16 +50,17 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 5rem;
             font-weight: 500;
-            color: #1d4ed8;
+            color: var(--blue);
             line-height: 1;
         }
         h1 {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
             margin-top: 1rem;
         }
         p {
-            color: #78716c;
+            color: var(--ink-2);
             font-size: 0.95rem;
             margin-top: 0.5rem;
         }
@@ -45,7 +69,7 @@
             margin-top: 2rem;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
-            color: #1d4ed8;
+            color: var(--blue);
             text-decoration: none;
         }
         a:hover { text-decoration: underline; text-underline-offset: 4px; }
